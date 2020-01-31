@@ -94,7 +94,7 @@ export interface InitialNotification {
  * View the [Events](/react-native/docs/events) documentation to learn more about foreground and
  * background events.
  */
-export interface NotificationEvent {
+export interface Event {
   /**
    * The type of notification event.
    */
@@ -103,7 +103,7 @@ export interface NotificationEvent {
   /**
    * An object containing event detail.
    */
-  detail: NotificationEventDetail;
+  detail: EventDetail;
 }
 
 /**
@@ -117,7 +117,7 @@ export interface NotificationEvent {
 export type ForegroundServiceTask = (notification: Notification) => Promise<void>;
 
 /**
- * An enum representing an event type, defined on [`NotificationEvent`](/react-native/reference/notificationevent).
+ * An enum representing an event type, defined on [`Event`](/react-native/reference/event).
  *
  * View the [Events](/react-native/docs/events) documentation to learn more about foreground and
  * background events.
@@ -188,7 +188,12 @@ export enum EventType {
   // SCHEDULED = 7,
 }
 
-export interface NotificationEventDetail {
+/**
+ * An interface representing the different detail values which can be provided with a notification event.
+ *
+ * View the [Events](/react-native/docs/events) documentation to learn more.
+ */
+export interface EventDetail {
   /**
    * The notification this event relates to.
    *

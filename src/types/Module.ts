@@ -6,7 +6,7 @@ import {
   ForegroundServiceTask,
   InitialNotification,
   Notification,
-  NotificationEvent,
+  Event,
 } from './Notification';
 import {
   AndroidChannel,
@@ -244,7 +244,7 @@ export interface Module {
    * @param observer A Function which returns a Promise, called on a new event when the application
    * is in a background state.
    */
-  onBackgroundEvent(observer: (event: NotificationEvent) => Promise<void>): void;
+  onBackgroundEvent(observer: (event: Event) => Promise<void>): void;
 
   /**
    * API used to handle events when the application is in a foreground state.
@@ -261,7 +261,7 @@ export interface Module {
    * @param observer A Function which returns a Promise, called on a new event when the application
    * is in a foreground state.
    */
-  onForegroundEvent(observer: (event: NotificationEvent) => void): () => void;
+  onForegroundEvent(observer: (event: Event) => void): () => void;
 
   /**
    * API used to open the Android System settings for the application.
