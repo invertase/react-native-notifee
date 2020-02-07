@@ -132,7 +132,7 @@ export interface Module {
   deleteChannelGroup(channelGroupId: string): Promise<void>;
 
   /**
-   * API used to immideatly display or update a notification on the users device.
+   * API used to immediately display or update a notification on the users device.
    *
    * This API is used to display a notification on the users device. All
    * channels/categories should be created before triggering this method during the apps lifecycle.

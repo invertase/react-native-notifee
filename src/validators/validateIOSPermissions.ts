@@ -9,7 +9,7 @@ export default function validateIOSPermissions(permissions: IOSPermissions): IOS
     carPlay: true,
     settings: true,
     provisional: false,
-    announcement: true,
+    announcement: false,
   };
 
   if (!permissions) {

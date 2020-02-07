@@ -36,7 +36,7 @@ export interface IOSPermissions {
   carPlay?: boolean; // true
   settings?: boolean; // true
   provisional?: boolean; // false
-  announcement?: boolean; // true
+  announcement?: boolean; // false
 }
 
 export interface IOSCategory {
