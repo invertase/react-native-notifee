@@ -21,6 +21,7 @@ RCT_EXPORT_MODULE();
 
 - (id)init {
   if (self = [super init]) {
+    // TODO config
     [Notifee initialize:@"hello from RNNotifee"];
   }
   return self;
@@ -42,44 +43,60 @@ RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(cancelNotification:
   (NSString *) notificationId
-    :(RCTPromiseResolveBlock) resolve
-    :(RCTPromiseRejectBlock) reject
+      resolve:
+      (RCTPromiseResolveBlock) resolve
+      reject:
+      (RCTPromiseRejectBlock) reject
 ) {
-    [Notifee cancelNotification:notificationId withBlock:^(NSError * _Nullable error) {
-        if (error != nil) {
-          reject(@"todo", @"todo", error);
-        } else {
-          resolve([NSNull null]);
-        }
-    }];
+  [[Notifee instance] cancelNotification:notificationId withBlock:^(NSError *_Nullable error) {
+    [self resolve:resolve orReject:reject promiseWithError:error orResult:nil];
+  }];
 }
 
 RCT_EXPORT_METHOD(displayNotification:
   (NSDictionary *) notification
-    :(RCTPromiseResolveBlock) resolve
-    :(RCTPromiseRejectBlock) reject
+      resolve:
+      (RCTPromiseResolveBlock) resolve
+      reject:
+      (RCTPromiseRejectBlock) reject
 ) {
-    [Notifee displayNotification:notification withBlock:^(NSError * _Nullable error) {
-        if (error != nil) {
-          reject(@"todo", @"todo", error);
-        } else {
-          resolve([NSNull null]);
-        }
-    }];
+  [[Notifee instance] displayNotification:notification withBlock:^(NSError *_Nullable error) {
+    [self resolve:resolve orReject:reject promiseWithError:error orResult:nil];
+  }];
 }
 
 RCT_EXPORT_METHOD(requestPermission:
   (NSDictionary *) permissions
-    :(RCTPromiseResolveBlock) resolve
-    :(RCTPromiseRejectBlock) reject
+      resolve:
+      (RCTPromiseResolveBlock) resolve
+      reject:
+      (RCTPromiseRejectBlock) reject
 ) {
-    [Notifee requestPermission:permissions withBlock:^(NSError * _Nullable error, BOOL granted) {
-        if (error != nil) {
-          reject(@"todo", @"todo", error);
-        } else {
-          resolve(@(granted));
-        }
-    }];
+  [[Notifee instance] requestPermission:permissions withBlock:^(NSError *_Nullable error, NSDictionary *settings) {
+    [self resolve:resolve orReject:reject promiseWithError:error orResult:settings];
+  }];
 }
+
+RCT_EXPORT_METHOD(getNotificationSettings:
+  (RCTPromiseResolveBlock) resolve
+      reject:
+      (RCTPromiseRejectBlock) reject
+) {
+  [[Notifee instance] getNotificationSettings:^(NSError *_Nullable error, NSDictionary *settings) {
+    [self resolve:resolve orReject:reject promiseWithError:error orResult:settings];
+  }];
+}
+
+# pragma mark - Internals
+
+- (void)resolve:(RCTPromiseResolveBlock)resolve orReject:(RCTPromiseRejectBlock)reject promiseWithError:(NSError *_Nullable)error orResult:(id _Nullable)result {
+  if (error != nil) {
+    // TODO codes & messages
+    reject(@"todo", @"todo", error);
+  } else {
+    resolve(result);
+  }
+}
+
 
 @end
