@@ -87,6 +87,28 @@ RCT_EXPORT_METHOD(getNotificationSettings:
   }];
 }
 
+RCT_EXPORT_METHOD(getNotificationCategories:
+  (RCTPromiseResolveBlock) resolve
+      reject:
+      (RCTPromiseRejectBlock) reject
+) {
+  [[Notifee instance] getNotificationCategoriesWithBlock:^(NSError *_Nullable error, NSArray<NSDictionary *> *categories) {
+    [self resolve:resolve orReject:reject promiseWithError:error orResult:categories];
+  }];
+}
+
+RCT_EXPORT_METHOD(setNotificationCategories:
+  (NSArray<NSDictionary *> *) categories
+  resolve:
+      (RCTPromiseResolveBlock) resolve
+      reject:
+      (RCTPromiseRejectBlock) reject
+) {
+  [[Notifee instance] setNotificationCategories:categories withBlock:^(NSError *_Nullable error) {
+    [self resolve:resolve orReject:reject promiseWithError:error orResult:nil];
+  }];
+}
+
 # pragma mark - Internals
 
 - (void)resolve:(RCTPromiseResolveBlock)resolve orReject:(RCTPromiseRejectBlock)reject promiseWithError:(NSError *_Nullable)error orResult:(id _Nullable)result {

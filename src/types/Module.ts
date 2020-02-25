@@ -2,14 +2,14 @@
  * Copyright (c) 2016-present Invertase Limited
  */
 
-import { ForegroundServiceTask, InitialNotification, Notification, Event } from './Notification';
+import { Event, ForegroundServiceTask, InitialNotification, Notification } from './Notification';
 import {
   AndroidChannel,
   AndroidChannelGroup,
   NativeAndroidChannel,
   NativeAndroidChannelGroup,
 } from './NotificationAndroid';
-import { IOSCategory, IOSPermissions } from './NotificationIOS';
+import { IOSCategory, IOSNotificationSettings, IOSPermissions } from './NotificationIOS';
 
 export interface Module {
   /**
@@ -299,7 +299,48 @@ export interface Module {
    */
   registerForegroundService(task: ForegroundServiceTask): void;
 
+  /**
+   * Request specific notification permissions for your application on the current device.
+   *
+   *   TODO better description
+   *
+   * @platform ios
+   * @param permissions
+   */
   requestPermission(permissions: IOSPermissions): Promise<boolean>;
+
+  /**
+   * Set the notification categories to be used on this Apple device.
+   *
+   *   TODO better description
+   *
+   * @platform ios
+   *
+   * @param categories
+   */
+  setNotificationCategories(categories: IOSCategory[]): Promise<void>;
+
+  /**
+   * Gets the currently set notification categories on this Apple device.
+   *
+   * Returns an empty array on Android.
+   *
+   *   TODO better description
+   *
+   *@platform ios
+   */
+  getNotificationCategories(): Promise<IOSCategory[]>;
+
+  /**
+   * Get the current notification settings for this application on the current device.
+   *
+   * Returns null on Android.
+   *
+   *   TODO better description
+   *
+   * @platform ios
+   */
+  getNotificationSettings(): Promise<null | IOSNotificationSettings>;
 
   // TODO introduce as part of iOS
   // scheduleNotification(notification: Notification, schedule: Schedule): Promise<void>;

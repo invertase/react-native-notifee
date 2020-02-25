@@ -17,7 +17,7 @@ import { isAndroid, isArray, isFunction, isIOS, isString, isUndefined } from './
 import validateNotification from './validators/validateNotification';
 import validateAndroidChannel from './validators/validateAndroidChannel';
 import validateAndroidChannelGroup from './validators/validateAndroidChannelGroup';
-import { IOSCategory, IOSPermissions } from './types/NotificationIOS';
+import { IOSCategory, IOSNotificationSettings, IOSPermissions } from './types/NotificationIOS';
 import validateIOSCategory from './validators/validateIOSCategory';
 import validateIOSPermissions from './validators/validateIOSPermissions';
 
@@ -305,6 +305,46 @@ export default class NotifeeApiModule extends NotifeeNativeModule implements Mod
     registeredForegroundServiceTask = runner;
   }
 
+  public setNotificationCategories(categories: IOSCategory[]): Promise<void> {
+    if (isAndroid) {
+      return Promise.resolve();
+    }
+
+    if (!isArray(categories)) {
+      throw new Error(
+        "notifee.setNotificationCategories(*) 'categories' expected an array of IOSCategory.",
+      );
+    }
+
+    const options = [];
+    try {
+      for (let i = 0; i < categories.length; i++) {
+        options[i] = validateIOSCategory(categories[i]);
+      }
+    } catch (e) {
+      throw new Error(
+        `notifee.setNotificationCategories(*) 'categories' a category is invalid: ${e.message}`,
+      );
+    }
+
+    return this.native.setNotificationCategories(categories);
+  }
+
+  public getNotificationCategories(): Promise<IOSCategory[]> {
+    if (isAndroid) {
+      return Promise.resolve([]);
+    }
+
+    return this.native.getNotificationCategories();
+  }
+
+  public getNotificationSettings(): Promise<null | IOSNotificationSettings> {
+    if (isAndroid) {
+      return Promise.resolve(null);
+    }
+
+    return this.native.getNotificationSettings();
+  }
   // public scheduleNotification(notification: Notification, schedule: Schedule): Promise<void> {
   //   return Promise.resolve();
   // let notificationOptions;
