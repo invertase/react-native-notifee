@@ -1,11 +1,13 @@
 /*
  * Copyright (c) 2016-present Invertase Limited
  */
-import { IOSCategory } from '../types/NotificationIOS';
+import { IOSNotificationCategory } from '../types/NotificationIOS';
 import { isArray, isObject, isString } from '../utils';
 import validateIOSCategoryAction from './validateIOSCategoryAction';
 
-export default function validateIOSCategory(category: IOSCategory): IOSCategory {
+export default function validateIOSCategory(
+  category: IOSNotificationCategory,
+): IOSNotificationCategory {
   if (!isObject(category)) {
     throw new Error("'category' expected an object value.");
   }
@@ -37,5 +39,5 @@ export default function validateIOSCategory(category: IOSCategory): IOSCategory 
   return {
     id: category.id,
     actions: category.actions,
-  } as IOSCategory;
+  } as IOSNotificationCategory;
 }

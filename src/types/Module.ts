@@ -9,7 +9,11 @@ import {
   NativeAndroidChannel,
   NativeAndroidChannelGroup,
 } from './NotificationAndroid';
-import { IOSCategory, IOSNotificationSettings, IOSPermissions } from './NotificationIOS';
+import {
+  IOSNotificationCategory,
+  IOSNotificationSettings,
+  IOSNotificationPermissions,
+} from './NotificationIOS';
 
 export interface Module {
   /**
@@ -37,7 +41,7 @@ export interface Module {
    */
   cancelNotification(notificationId: string): Promise<void>;
 
-  createCategory(category: IOSCategory): Promise<string>;
+  createCategory(category: IOSNotificationCategory): Promise<string>;
 
   /**
    * API to create and update channels on supported Android devices.
@@ -302,12 +306,16 @@ export interface Module {
   /**
    * Request specific notification permissions for your application on the current device.
    *
+   * Returns null on Android.
+   *
    *   TODO better description
    *
    * @platform ios
    * @param permissions
    */
-  requestPermission(permissions: IOSPermissions): Promise<boolean>;
+  requestPermission(
+    permissions: IOSNotificationPermissions,
+  ): Promise<IOSNotificationSettings | null>;
 
   /**
    * Set the notification categories to be used on this Apple device.
@@ -318,7 +326,7 @@ export interface Module {
    *
    * @param categories
    */
-  setNotificationCategories(categories: IOSCategory[]): Promise<void>;
+  setNotificationCategories(categories: IOSNotificationCategory[]): Promise<void>;
 
   /**
    * Gets the currently set notification categories on this Apple device.
@@ -329,7 +337,7 @@ export interface Module {
    *
    *@platform ios
    */
-  getNotificationCategories(): Promise<IOSCategory[]>;
+  getNotificationCategories(): Promise<IOSNotificationCategory[]>;
 
   /**
    * Get the current notification settings for this application on the current device.

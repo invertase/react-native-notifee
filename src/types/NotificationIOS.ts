@@ -1,60 +1,260 @@
 /* eslint-disable @typescript-eslint/interface-name-prefix */
 
 /*
- * Copyright (c) 2016-present Invertase Limited
+ * Copyright (c) 2016-present Invertase Limited.
  */
 
 export interface NotificationIOS {
   /**
-   * @platform ios iOS 10+
+   * Optional array of attachments
    */
-  attachments?: IOSAttachment[];
+  attachments?: IOSNotificationAttachment[];
 
-  badgeCount?: number;
+  /**
+   * The application badge count number. Set to null to indicate no change, or 0 to hide.
+   */
+  badgeCount?: number | null;
 
-  categories?: string[];
+  /**
+   * The id of a registered `IOSCategory` (via the `setNotificationCategories` API) that will be used to determine the
+   * appropriate actions to display for the notification.
+   */
+  categoryId?: string;
 
-  groupId?: string;
+  /**
+   * The launch image that will be used when the app is opened from this notification.
+   */
+  launchImageName?: string;
 
-  groupMessage?: string;
+  /**
+   * The sound that will be played for this notification.
+   *
+   * Use 'default' to use the default system sound.
+   */
+  sound?: string | IOSNotificationSound;
 
-  groupCount?: number;
+  /**
+   * A unique id for the thread or conversation related to this notification.
+   * This will be used to visually group notifications together.
+   */
+  threadId?: string;
 
-  launchImage?: string;
+  /**
+   * The argument that is inserted in the IOSCategory.summaryFormat for this notification.
+   *
+   * See `IOSCategory.summaryFormat`.
+   *
+   * @platform ios iOS >= 12
+   */
+  summaryArgument?: string;
 
-  sound?: string;
+  /**
+   * A number that indicates how many items in the summary are being represented.
+   *
+   * For example if a messages app sends one notification for 3 new messages in a group chat,
+   * the summaryArgument could be the name of the group chat and the summaryArgumentCount should be 3.
+   *
+   * Defaults to 1 and cannot be 0.
+   *
+   * See `IOSCategory.summaryFormat`.
+   *
+   * @platform ios iOS >= 12
+   */
+  summaryArgumentCount?: number;
+
+  /**
+   * The identifier for the window to be opened when the user taps a notification.
+   *
+   * This value determines the window brought forward when the user taps this notification on iPadOS.
+   *
+   * @platform ios iOS >= 13
+   */
+  targetContentId?: string;
 }
 
-export interface IOSPermissions {
-  alert?: boolean; // true
-  badge?: boolean; // true
-  sound?: boolean; // true
-  carPlay?: boolean; // true
-  provisional?: boolean; // false
-  announcement?: boolean; // false
-  inAppNotificationSettings?: boolean; // true
+export interface IOSNotificationSound {
+  /**
+   * The name of the sound file to be played. The sound must be in the Library/Sounds folder of the
+   * app's data container or the Library/Sounds folder of an app group data container.
+   *
+   * If the file is not found in a container, the system will look in the app's bundle.
+   *
+   * Use 'default' to use the default system sound.
+   */
+  name: string;
+
+  /**
+   * If the notification is a critical alert set this property to true; critical alerts will bypass
+   * the mute switch and also bypass Do Not Disturb.
+   *
+   * @platform ios iOS >= 12
+   */
+  critical?: boolean;
+
+  /**
+   * The optional audio volume of the critical sound; a float value between 0.0 and 1.0.
+   *
+   * @platform ios iOS >= 12
+   */
+  criticalVolume?: number;
 }
 
+/**
+ * An interface representing all the available permissions that can be requested by your app via
+ * the `requestPermission` API.
+ */
+export interface IOSNotificationPermissions {
+  /**
+   * Request permission to display alerts.
+   *
+   * Defaults to true.
+   */
+  alert?: boolean;
+
+  // TODO add support, look into whether using UNAuthorizationOptionCriticalAlert without entitlement
+  //    will cause an app review failure.
+  // criticalAlert?: boolean; // false
+
+  /**
+   * Request permission to update the application badge.
+   *
+   * Defaults to true.
+   */
+  badge?: boolean;
+
+  /**
+   * Request permission to play sounds.
+   *
+   * Defaults to true.
+   */
+  sound?: boolean;
+
+  /**
+   * Request permission to display notifications in a CarPlay environment.
+   *
+   * Defaults to true.
+   */
+  carPlay?: boolean;
+
+  /**
+   * Request permission to provisionally create non-interrupting notifications.
+   *
+   * Defaults to false.
+   *
+   * @platform ios iOS >= 12
+   */
+  provisional?: boolean;
+
+  /**
+   * Request permission for Siri to automatically read out notification messages over AirPods.
+   *
+   * Defaults to false.
+   *
+   * @platform ios iOS >= 13
+   */
+  announcement?: boolean;
+
+  /**
+   * Using this permission indicates to iOS that it should display a button for in-app notification
+   * settings. Pressing this button when your application is open will trigger a Notifee
+   * 'ACTION_PRESS' event with a `pressAction.id` of 'notification-settings'
+   * (or via getInitialNotification 'pressAction.id' when app launched).
+   *
+   * TODO confirm/finalise press action behaviour on iOS (and also Android), AndroidPressAction -> PressAction
+   *
+   * Defaults to false.
+   *
+   * @platform ios iOS >= 12
+   */
+  inAppNotificationSettings?: boolean;
+}
+
+/**
+ * An enum representing the notification authorization status for this app on the device.
+ *
+ * Value is truthy if authorized, compare against an exact status (e.g. PROVISIONAL) for a more
+ * granular status.
+ */
 export enum IOSAuthorizationStatus {
+  /**
+   * The app user has not yet chosen whether to allow the application to create notifications. Usually
+   * this status is returned prior to the first call of `requestPermission`.
+   */
   NOT_DETERMINED = -1,
+
+  /**
+   * The app is not authorized to create notifications.
+   */
   DENIED = 0,
+
+  /**
+   * The app is authorized to create notifications.
+   */
   AUTHORIZED = 1,
+
+  /**
+   * The app is currently authorized to post non-interrupting user notifications
+   * @platform ios iOS >= 12
+   */
   PROVISIONAL = 2,
 }
 
+/**
+ * An enum representing the show previews notification setting for this app on the device.
+ *
+ * Value is truthy if previews are to be shown, compare against an exact value
+ * (e.g. WHEN_AUTHENTICATED) for more granular control.
+ */
 export enum IOSShowPreviewsSetting {
+  /**
+   * This setting is not supported on this device. Usually this means that the iOS version required
+   * for this setting (iOS 11+) has not been met.
+   */
   NOT_SUPPORTED = -1,
+
+  /**
+   * Never show previews.
+   */
   NEVER = 0,
+
+  /**
+   * Always show previews even if the device is currently locked.
+   */
   ALWAYS = 1,
+
+  /**
+   * Only show previews when the device is unlocked.
+   */
   WHEN_AUTHENTICATED = 2,
 }
 
+/**
+ * An enum representing a notification setting for this app on the device.
+ *
+ * Value is truthy if setting enabled, compare against an exact value (e.g. NOT_SUPPORTED) for more
+ * granular control.
+ */
 export enum IOSNotificationSetting {
+  /**
+   * This setting is not supported on this device. Usually this means that the iOS version required
+   * for this setting has not been met.
+   */
   NOT_SUPPORTED = -1,
+
+  /**
+   * This setting is currently disabled by the user.
+   */
   DISABLED = 0,
+
+  /**
+   * This setting is currently enabled.
+   */
   ENABLED = 1,
 }
 
+/**
+ * TODO docs
+ */
 export interface IOSNotificationSettings {
   alert: IOSNotificationSetting;
   badge: IOSNotificationSetting;
@@ -69,6 +269,9 @@ export interface IOSNotificationSettings {
   authorizationStatus: IOSAuthorizationStatus;
 }
 
+/**
+ * TODO docs, used to provide context to Siri
+ */
 export enum IOSIntentIdentifier {
   START_AUDIO_CALL = 0,
 
@@ -121,7 +324,10 @@ export enum IOSIntentIdentifier {
   GET_RIDE_STATUS = 24,
 }
 
-export interface IOSCategory {
+/**
+ * TODO docs
+ */
+export interface IOSNotificationCategory {
   id: string;
   summaryFormat?: string;
   allowInCarPlay?: boolean;
@@ -130,14 +336,27 @@ export interface IOSCategory {
   hiddenPreviewsShowSubtitle?: boolean;
   hiddenPreviewsBodyPlaceholder?: string;
   intentIdentifiers?: IOSIntentIdentifier[];
-  actions: IOSAction[];
+  actions: IOSNotificationCategoryAction[];
 }
 
-export interface IOSAction {
+export interface IOSNotificationCategoryAction {
   id: string;
   title: string;
   input?: true | IOSInput;
-  options?: IOSActionOptions;
+  /**
+   * Makes the action red, indicating that the action is destructive.
+   */
+  destructive?: boolean; // false
+
+  /**
+   * Whether this action should cause the application to launch in the foreground.
+   */
+  foreground?: boolean; // false
+
+  /**
+   * Whether this action should require unlocking before being performed.
+   */
+  authenticationRequired?: boolean; // false
 }
 
 export interface IOSInput {
@@ -152,26 +371,10 @@ export interface IOSInput {
   placeholderText?: string;
 }
 
-export interface IOSActionOptions {
-  /**
-   * Makes the action red, indicating that the action is destructive.
-   */
-  destructive?: boolean; // false
-
-  /**
-   * Whether this action should cause the application to launch in the foreground.
-   */
-  launchApp?: boolean; // false
-
-  /**
-   * Whether this action should require unlocking before being performed.
-   */
-  authentication?: boolean; // false
-}
-
-export interface IOSAttachment {
+export interface IOSNotificationAttachment {
   identifier: string;
   url: string;
+  // TODO move options inline here
   options?: IOSAttachmentOptions;
 }
 

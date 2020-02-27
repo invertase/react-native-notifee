@@ -19,11 +19,6 @@ import {
  */
 export interface Notification {
   /**
-   * The main body content of a notification.
-   */
-  body?: string;
-
-  /**
    * A unique identifier for your notification.
    *
    * Notifications with the same ID will be created as the same instance, allowing you to update
@@ -42,6 +37,11 @@ export interface Notification {
    * The notification subtitle, which appears on a new line below/next the title.
    */
   subtitle?: string;
+
+  /**
+   * The main body content of a notification.
+   */
+  body?: string;
 
   /**
    * Additional data to store on the notification. Only `string` values can be stored.

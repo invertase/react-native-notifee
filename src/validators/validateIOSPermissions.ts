@@ -1,13 +1,15 @@
-import { IOSPermissions } from '..';
+import { IOSNotificationPermissions } from '..';
 import { hasOwnProperty, isBoolean } from '../utils';
 
-export default function validateIOSPermissions(permissions: IOSPermissions): IOSPermissions {
-  const out: IOSPermissions = {
+export default function validateIOSPermissions(
+  permissions: IOSNotificationPermissions,
+): IOSNotificationPermissions {
+  const out: IOSNotificationPermissions = {
     alert: true,
     badge: true,
     sound: true,
     carPlay: true,
-    settings: true,
+    inAppNotificationSettings: false,
     provisional: false,
     announcement: false,
   };
@@ -48,12 +50,12 @@ export default function validateIOSPermissions(permissions: IOSPermissions): IOS
     out.carPlay = permissions.carPlay;
   }
 
-  if (hasOwnProperty(permissions, 'settings')) {
-    if (!isBoolean(permissions.settings)) {
-      throw new Error("'settings' expected a boolean value.");
+  if (hasOwnProperty(permissions, 'inAppNotificationSettings')) {
+    if (!isBoolean(permissions.inAppNotificationSettings)) {
+      throw new Error("'inAppNotificationSettings' expected a boolean value.");
     }
 
-    out.settings = permissions.settings;
+    out.inAppNotificationSettings = permissions.inAppNotificationSettings;
   }
 
   if (hasOwnProperty(permissions, 'provisional')) {

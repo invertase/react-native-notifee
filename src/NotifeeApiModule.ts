@@ -17,7 +17,11 @@ import { isAndroid, isArray, isFunction, isIOS, isString, isUndefined } from './
 import validateNotification from './validators/validateNotification';
 import validateAndroidChannel from './validators/validateAndroidChannel';
 import validateAndroidChannelGroup from './validators/validateAndroidChannelGroup';
-import { IOSCategory, IOSNotificationSettings, IOSPermissions } from './types/NotificationIOS';
+import {
+  IOSNotificationCategory,
+  IOSNotificationSettings,
+  IOSNotificationPermissions,
+} from './types/NotificationIOS';
 import validateIOSCategory from './validators/validateIOSCategory';
 import validateIOSPermissions from './validators/validateIOSPermissions';
 
@@ -50,8 +54,8 @@ export default class NotifeeApiModule extends NotifeeNativeModule implements Mod
     return this.native.cancelNotification(notificationId);
   }
 
-  public createCategory(category: IOSCategory): Promise<string> {
-    let options: IOSCategory;
+  public createCategory(category: IOSNotificationCategory): Promise<string> {
+    let options: IOSNotificationCategory;
     try {
       options = validateIOSCategory(category);
     } catch (e) {
@@ -278,12 +282,14 @@ export default class NotifeeApiModule extends NotifeeNativeModule implements Mod
     return this.native.openNotificationSettings(channelId || null);
   }
 
-  public requestPermission(permissions: IOSPermissions): Promise<boolean> {
+  public requestPermission(
+    permissions: IOSNotificationPermissions,
+  ): Promise<IOSNotificationSettings | null> {
     if (isAndroid) {
-      return Promise.resolve(true);
+      return Promise.resolve(null);
     }
 
-    let options: IOSPermissions;
+    let options: IOSNotificationPermissions;
     try {
       options = validateIOSPermissions(permissions);
     } catch (e) {
@@ -305,7 +311,7 @@ export default class NotifeeApiModule extends NotifeeNativeModule implements Mod
     registeredForegroundServiceTask = runner;
   }
 
-  public setNotificationCategories(categories: IOSCategory[]): Promise<void> {
+  public setNotificationCategories(categories: IOSNotificationCategory[]): Promise<void> {
     if (isAndroid) {
       return Promise.resolve();
     }
@@ -330,7 +336,7 @@ export default class NotifeeApiModule extends NotifeeNativeModule implements Mod
     return this.native.setNotificationCategories(categories);
   }
 
-  public getNotificationCategories(): Promise<IOSCategory[]> {
+  public getNotificationCategories(): Promise<IOSNotificationCategory[]> {
     if (isAndroid) {
       return Promise.resolve([]);
     }
