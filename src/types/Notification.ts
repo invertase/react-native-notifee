@@ -185,7 +185,7 @@ export enum EventType {
   /**
    * Event type is sent when a notification has been scheduled for displaying at a future date/time.
    */
-  // SCHEDULED = 7,
+  SCHEDULED = 7,
 }
 
 /**

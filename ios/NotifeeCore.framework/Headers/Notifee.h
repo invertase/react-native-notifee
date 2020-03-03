@@ -12,7 +12,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-
 typedef void (^notifeeMethodVoidBlock)(NSError *_Nullable);
 
 typedef void (^notifeeMethodNSDictionaryBlock)(NSError *_Nullable, NSDictionary *_Nullable);
@@ -30,8 +29,6 @@ static NSString *kNotifeeOpenSettingsForNotification = @"NotifeeOpenSettingsForN
 static NSString *kNotifeeDidReceiveNotificationResponse = @"NotifeeDidReceiveNotificationResponse";
 
 @interface Notifee : NSObject <UNUserNotificationCenterDelegate>
-
-@property(nonatomic, strong, nonnull) Notifee *instance;
 
 + (instancetype)initialize:(NSString *)testString;
 

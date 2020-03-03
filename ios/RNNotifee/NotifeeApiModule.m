@@ -9,7 +9,9 @@
 #import "NotifeeApiModule.h"
 #import <NotifeeCore/Notifee.h>
 
-@implementation NotifeeApiModule
+@implementation NotifeeApiModule {
+  bool hasListeners;
+}
 
 #pragma mark - Module Setup
 
@@ -23,6 +25,7 @@ RCT_EXPORT_MODULE();
   if (self = [super init]) {
     // TODO config
     [Notifee initialize:@"hello from RNNotifee"];
+    [self.bridge enqueueJSCall:@"Notifee" method:@"__handleNativeIOSEvent" args:@[@{@"foo": @"bar"}] completion:NULL];
   }
   return self;
 }
@@ -35,8 +38,64 @@ RCT_EXPORT_MODULE();
   return @[@"app.notifee.notification.event"];
 }
 
+// called when this module's first listener is added.
+- (void)startObserving {
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(UNUNC_willPresentNotification:)
+             name:kNotifeeWillPresentNotification
+           object:nil
+  ];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(UNUNC_didReceiveNotificationResponse:)
+             name:kNotifeeDidReceiveNotificationResponse
+           object:nil
+  ];
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(UNUNC_openSettingsForNotification:)
+             name:kNotifeeOpenSettingsForNotification
+           object:nil
+  ];
+  hasListeners = YES;
+}
+
+// called when this module's last listener is removed, or on dealloc.
+- (void)stopObserving {
+  [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotifeeWillPresentNotification object:nil];
+  [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotifeeDidReceiveNotificationResponse object:nil];
+  [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotifeeOpenSettingsForNotification object:nil];
+  hasListeners = NO;
+}
+
 + (BOOL)requiresMainQueueSetup {
   return YES;
+}
+
+# pragma mark - Events
+
+- (void)UNUNC_willPresentNotification:(NSNotification *)notification {
+  if (hasListeners) {
+    [self sendEventWithName:@"app.notifee.notification.event" body:@{
+        @"type": @-1,
+        @"detail": @{
+            @"notification": ((UNNotification *) notification.userInfo[@"notification"]).request.content.userInfo[kNotifeeUserInfoNotification],
+        }
+    }];
+  }
+}
+
+- (void)UNUNC_didReceiveNotificationResponse:(NSNotification *)notification {
+  if (hasListeners) {
+    [self sendEventWithName:@"app.notifee.notification.event" body:@{@"name": eventName}];
+  }
+}
+
+- (void)UNUNC_openSettingsForNotification:(NSNotification *)notification {
+  if (hasListeners) {
+    [self sendEventWithName:@"app.notifee.notification.event" body:@{@"name": eventName}];
+  }
 }
 
 # pragma mark - React Native Methods
@@ -99,7 +158,7 @@ RCT_EXPORT_METHOD(getNotificationCategories:
 
 RCT_EXPORT_METHOD(setNotificationCategories:
   (NSArray<NSDictionary *> *) categories
-  resolve:
+      resolve:
       (RCTPromiseResolveBlock) resolve
       reject:
       (RCTPromiseRejectBlock) reject

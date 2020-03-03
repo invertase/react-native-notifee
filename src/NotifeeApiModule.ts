@@ -351,6 +351,7 @@ export default class NotifeeApiModule extends NotifeeNativeModule implements Mod
 
     return this.native.getNotificationSettings();
   }
+
   // public scheduleNotification(notification: Notification, schedule: Schedule): Promise<void> {
   //   return Promise.resolve();
   // let notificationOptions;
