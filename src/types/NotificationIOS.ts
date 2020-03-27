@@ -4,6 +4,8 @@
  * Copyright (c) 2016-present Invertase Limited.
  */
 
+import { Importance } from '..';
+
 export interface NotificationIOS {
   /**
    * Optional array of attachments
@@ -25,6 +27,14 @@ export interface NotificationIOS {
    * The launch image that will be used when the app is opened from this notification.
    */
   launchImageName?: string;
+
+  /**
+   * The importance level applied to the notification. This controls how the notification is presented
+   * to the user whilst the application is in the foreground.
+   *
+   * Defaults to `Importance.DEFAULT`.
+   */
+  importance?: Importance;
 
   /**
    * The sound that will be played for this notification.
@@ -113,7 +123,7 @@ export interface IOSNotificationPermissions {
 
   // TODO add support, look into whether using UNAuthorizationOptionCriticalAlert without entitlement
   //    will cause an app review failure.
-  // criticalAlert?: boolean; // false
+  criticalAlert?: boolean; // false
 
   /**
    * Request permission to update the application badge.

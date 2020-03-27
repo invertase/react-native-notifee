@@ -12,6 +12,7 @@ export default function validateIOSPermissions(
     inAppNotificationSettings: false,
     provisional: false,
     announcement: false,
+    criticalAlert: false,
   };
 
   if (!permissions) {
@@ -72,6 +73,14 @@ export default function validateIOSPermissions(
     }
 
     out.announcement = permissions.announcement;
+  }
+
+  if (hasOwnProperty(permissions, 'criticalAlert')) {
+    if (!isBoolean(permissions.criticalAlert)) {
+      throw new Error("'criticalAlert' expected a boolean value.");
+    }
+
+    out.criticalAlert = permissions.criticalAlert;
   }
 
   return out;

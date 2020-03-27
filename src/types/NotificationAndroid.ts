@@ -2,6 +2,8 @@
  * Copyright (c) 2016-present Invertase Limited
  */
 
+import { Importance } from '..';
+
 /**
  * The interface for Android specific options which are applied to a notification.
  *
@@ -247,14 +249,14 @@ export interface NotificationAndroid {
    * without channel support, set this property to directly assign an importance level to the incoming
    * notification.
    *
-   * Defaults to `AndroidImportance.DEFAULT`.
+   * Defaults to `Importance.DEFAULT`.
    *
    * View the [Appearance](/react-native/docs/android/appearance#importance) documentation to learn
    * more.
    *
    * @platform android API Level < 26
    */
-  importance?: AndroidImportance;
+  importance?: Importance;
 
   /**
    * A notification can show current progress of a task. The progress state can either be fixed or
@@ -880,11 +882,11 @@ export interface AndroidChannel {
   /**
    * Sets the level of interruption of this notification channel.
    *
-   * Defaults to `AndroidImportance.DEFAULT`.
+   * Defaults to `Importance.DEFAULT`.
    *
    * This setting can only be set to a lower importance level once set.
    */
-  importance?: AndroidImportance;
+  importance?: Importance;
 
   /**
    * If lights are enabled (via `lights`), sets/overrides the light color for notifications
@@ -1151,67 +1153,6 @@ export enum AndroidGroupAlertBehavior {
    * Children of a group will alert the user. The summary notification will not alert when displayed.
    */
   CHILDREN = 2,
-}
-
-/**
- * The interface describing the importance levels of an incoming notification.
- *
- * A notification importance level can be set directly onto a notification channel for supported devices (API Level >= 26)
- * or directly onto the notification for devices which do not support channels.
- *
- * The importance is used by the device to both change the visual prompt of a received notification
- * and also how it visually appears in the device notification shade.
- *
- * View the [Appearance](/react-native/docs/android/appearance#importance) documentation to learn
- * more.
- *
- * @platform android
- */
-export enum AndroidImportance {
-  /**
-   * The default importance applied to a channel/notification.
-   *
-   * The application small icon will show in the device statusbar. When the user pulls down the
-   * notification shade, the notification will show in it's expanded state (if applicable).
-   */
-  DEFAULT = 3,
-
-  /**
-   * The highest importance level applied to a channel/notification.
-   *
-   * Notifications will appear on-top of applications, allowing direct interaction without pulling
-   * down the notification shade. This level should only be used for urgent notifications, such as
-   * incoming phone calls, messages etc, which require immediate attention.
-   */
-  HIGH = 4,
-
-  /**
-   * A low importance level applied to a channel/notification.
-   *
-   * The application small icon will show in the device statusbar, however the notification will not alert
-   * the user (no sound or vibration). The notification will show in it's expanded state when the
-   * notification shade is pulled down.
-   */
-  LOW = 2,
-
-  /**
-   * The minimum importance level applied to a channel/notification.
-   *
-   * The application small icon will not show up in the statusbar, or alert the user. The notification
-   * will be in a collapsed state in the notification shade and placed at the bottom of the list.
-   *
-   * This level should be used when the notification requires no immediate attention. An example of this
-   * importance level is the Google app providing weather updates and only being visible when the
-   * user pulls the notification shade down,
-   *
-   */
-  MIN = 1,
-
-  /**
-   * The notification will not be shown. This has the same effect as the user disabling notifications
-   * in the application settings.
-   */
-  NONE = 0,
 }
 
 /**

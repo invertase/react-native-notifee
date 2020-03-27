@@ -2,11 +2,14 @@
  * Copyright (c) 2016-present Invertase Limited
  */
 
+import { Importance } from '..';
 import { IOSNotificationSound, NotificationIOS } from '../types/NotificationIOS';
 import { hasOwnProperty, isBoolean, isNumber, isObject, isString, isUndefined } from '../utils';
 
 export default function validateIOSNotification(ios?: NotificationIOS): NotificationIOS {
-  const out: NotificationIOS = {};
+  const out: NotificationIOS = {
+    importance: Importance.DEFAULT,
+  };
 
   if (isUndefined(ios)) {
     return out;
@@ -156,6 +159,17 @@ export default function validateIOSNotification(ios?: NotificationIOS): Notifica
     }
 
     out.launchImageName = ios.launchImageName;
+  }
+
+  /**
+   * importance
+   */
+  if (hasOwnProperty(ios, 'importance') && !isUndefined(ios.importance)) {
+    if (!Object.values(Importance).includes(ios.importance)) {
+      throw new Error("'notification.ios.importance' expected a valid Importance.");
+    }
+
+    out.importance = ios.importance;
   }
 
   /**
