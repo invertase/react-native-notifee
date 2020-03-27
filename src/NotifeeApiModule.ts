@@ -31,15 +31,17 @@ let registeredForegroundServiceTask: (notification: Notification) => Promise<voi
 export default class NotifeeApiModule extends NotifeeNativeModule implements Module {
   constructor(config: NativeModuleConfig) {
     super(config);
-    AppRegistry.registerHeadlessTask(this.native.FOREGROUND_NOTIFICATION_TASK_KEY, () => {
-      if (!registeredForegroundServiceTask) {
-        console.warn(
-          '[notifee] no registered foreground service has been set for displaying a foreground notification.',
-        );
-        return (): Promise<void> => Promise.resolve();
-      }
-      return ({ notification }): Promise<void> => registeredForegroundServiceTask(notification);
-    });
+    if (isAndroid) {
+      AppRegistry.registerHeadlessTask(this.native.FOREGROUND_NOTIFICATION_TASK_KEY, () => {
+        if (!registeredForegroundServiceTask) {
+          console.warn(
+            '[notifee] no registered foreground service has been set for displaying a foreground notification.',
+          );
+          return (): Promise<void> => Promise.resolve();
+        }
+        return ({ notification }): Promise<void> => registeredForegroundServiceTask(notification);
+      });
+    }
   }
 
   public cancelAllNotifications(): Promise<void> {
@@ -283,7 +285,7 @@ export default class NotifeeApiModule extends NotifeeNativeModule implements Mod
   }
 
   public requestPermission(
-    permissions: IOSNotificationPermissions,
+    permissions: IOSNotificationPermissions = {},
   ): Promise<IOSNotificationSettings | null> {
     if (isAndroid) {
       return Promise.resolve(null);

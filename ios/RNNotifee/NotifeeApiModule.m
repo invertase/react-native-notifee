@@ -38,6 +38,12 @@ RCT_EXPORT_MODULE();
   return @[@"app.notifee.notification.event"];
 }
 
+- (NSDictionary *)constantsToExport {
+  return @{
+    @"NOTIFICATION_EVENT_KEY": @"app.notifee.notification.event",
+  };
+}
+
 // called when this module's first listener is added.
 - (void)startObserving {
   [[NSNotificationCenter defaultCenter]
@@ -78,7 +84,7 @@ RCT_EXPORT_MODULE();
 - (void)UNUNC_willPresentNotification:(NSNotification *)notification {
   if (hasListeners) {
     [self sendEventWithName:@"app.notifee.notification.event" body:@{
-        @"type": @-1,
+        @"type": @3,
         @"detail": @{
             @"notification": ((UNNotification *) notification.userInfo[@"notification"]).request.content.userInfo[kNotifeeUserInfoNotification],
         }
@@ -88,13 +94,13 @@ RCT_EXPORT_MODULE();
 
 - (void)UNUNC_didReceiveNotificationResponse:(NSNotification *)notification {
   if (hasListeners) {
-    [self sendEventWithName:@"app.notifee.notification.event" body:@{@"name": eventName}];
+    [self sendEventWithName:@"app.notifee.notification.event" body:@{@"name": @"todo"}];
   }
 }
 
 - (void)UNUNC_openSettingsForNotification:(NSNotification *)notification {
   if (hasListeners) {
-    [self sendEventWithName:@"app.notifee.notification.event" body:@{@"name": eventName}];
+    [self sendEventWithName:@"app.notifee.notification.event" body:@{@"name": @"todo"}];
   }
 }
 

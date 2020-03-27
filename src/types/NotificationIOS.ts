@@ -154,19 +154,18 @@ export interface IOSNotificationPermissions {
    */
   announcement?: boolean;
 
-  /**
-   * Using this permission indicates to iOS that it should display a button for in-app notification
-   * settings. Pressing this button when your application is open will trigger a Notifee
-   * 'ACTION_PRESS' event with a `pressAction.id` of 'notification-settings'
-   * (or via getInitialNotification 'pressAction.id' when app launched).
-   *
-   * TODO confirm/finalise press action behaviour on iOS (and also Android), AndroidPressAction -> PressAction
-   *
-   * Defaults to false.
-   *
-   * @platform ios iOS >= 12
-   */
-  inAppNotificationSettings?: boolean;
+  // TODO later version
+  // /**
+  //  * Using this permission indicates to iOS that it should display a button for in-app notification
+  //  * settings. Pressing this button when your application is open will trigger a Notifee
+  //  * 'ACTION_PRESS' event with a `pressAction.id` of 'notification-settings'
+  //  * (or via getInitialNotification 'pressAction.id' when app launched)
+  //  *
+  //  * Defaults to false.
+  //  *
+  //  * @platform ios iOS >= 12
+  //  */
+  // inAppNotificationSettings?: boolean;
 }
 
 /**
