@@ -314,7 +314,7 @@ export interface Module {
    * @param permissions
    */
   requestPermission(
-    permissions: IOSNotificationPermissions,
+    permissions?: IOSNotificationPermissions,
   ): Promise<IOSNotificationSettings | null>;
 
   /**

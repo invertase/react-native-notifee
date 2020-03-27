@@ -181,11 +181,6 @@ export enum EventType {
    * @platform android API Level >= 28
    */
   CHANNEL_GROUP_BLOCKED = 6,
-
-  /**
-   * Event type is sent when a notification has been scheduled for displaying at a future date/time.
-   */
-  // SCHEDULED = 7,
 }
 
 /**
