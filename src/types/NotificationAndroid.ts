@@ -468,6 +468,8 @@ export interface AndroidPressAction {
    * performs a press action.
    *
    * View the [Interaction](/react-native/docs/android/interaction) to learn more.
+   *
+   * @platform android Android
    */
   launchActivity?: string;
 
@@ -478,6 +480,8 @@ export interface AndroidPressAction {
    * For this to correctly function, a basic native code change is required.
    *
    * View the [Press Action](/react-native/docs/android/interaction#press-action) document to learn more.
+   *
+   * @platform android Android
    */
   mainComponent?: string;
 }

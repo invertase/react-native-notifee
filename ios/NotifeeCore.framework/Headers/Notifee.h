@@ -22,15 +22,11 @@ typedef void (^notifeeMethodBooleanBlock)(NSError *_Nullable, BOOL);
 
 static NSString *kNotifeeUserInfoNotification = @"__notifee_notification";
 
-static NSString *kNotifeeWillPresentNotification = @"NotifeeWillPresentNotification";
-
-static NSString *kNotifeeOpenSettingsForNotification = @"NotifeeOpenSettingsForNotification";
-
-static NSString *kNotifeeDidReceiveNotificationResponse = @"NotifeeDidReceiveNotificationResponse";
+static NSString *kNotifeeOnEventNotification = @"NotifeeOnEventNotification";
 
 @interface Notifee : NSObject <UNUserNotificationCenterDelegate>
 
-+ (instancetype)initialize:(NSString *)testString;
++ (void)initialize;
 
 + (instancetype)instance;
 

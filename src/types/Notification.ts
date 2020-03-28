@@ -136,6 +136,8 @@ export enum EventType {
    * the notification from the notification shade or performing "Clear all" notifications.
    *
    * This event is **not** sent when a notification is cancelled or times out.
+   *
+   * @platform android Android
    */
   DISMISSED = 0,
 

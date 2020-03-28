@@ -30,7 +30,7 @@ export default function validateIOSCategory(
 
   for (let i = 0; i < category.actions.length; i++) {
     try {
-      validateIOSCategoryAction(category.actions[i]);
+      category.actions[i] = validateIOSCategoryAction(category.actions[i]);
     } catch (e) {
       throw new Error(`'category.actions' invalid action at index "${i}". ${e}`);
     }

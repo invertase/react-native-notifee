@@ -1,13 +1,24 @@
-//
-//  NotifeeApiModule.m
-//  RNNotifee
-//
-//  Created by Mike on 31/01/2020.
-//  Copyright © 2020 Invertase. All rights reserved.
-//
+/**
+ * Copyright (c) 2016-present Invertase Limited & Contributors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this library except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
 
 #import "NotifeeApiModule.h"
 #import <NotifeeCore/Notifee.h>
+
+static NSString *kReactNativeNotifeeNotificationEvent = @"app.notifee.notification.event";
 
 @implementation NotifeeApiModule {
   bool hasListeners;
@@ -23,56 +34,29 @@ RCT_EXPORT_MODULE();
 
 - (id)init {
   if (self = [super init]) {
-    // TODO config
-    [Notifee initialize:@"hello from RNNotifee"];
-    [self.bridge enqueueJSCall:@"Notifee" method:@"__handleNativeIOSEvent" args:@[@{@"foo": @"bar"}] completion:NULL];
+    [Notifee initialize];
   }
   return self;
 }
 
-- (void)invalidate {
-  // todo
-}
-
 - (NSArray<NSString *> *)supportedEvents {
-  return @[@"app.notifee.notification.event"];
+  return @[kReactNativeNotifeeNotificationEvent];
 }
 
 - (NSDictionary *)constantsToExport {
   return @{
-    @"NOTIFICATION_EVENT_KEY": @"app.notifee.notification.event",
+      @"NOTIFICATION_EVENT_KEY": kReactNativeNotifeeNotificationEvent,
   };
 }
 
-// called when this module's first listener is added.
 - (void)startObserving {
-  [[NSNotificationCenter defaultCenter]
-      addObserver:self
-         selector:@selector(UNUNC_willPresentNotification:)
-             name:kNotifeeWillPresentNotification
-           object:nil
-  ];
-  [[NSNotificationCenter defaultCenter]
-      addObserver:self
-         selector:@selector(UNUNC_didReceiveNotificationResponse:)
-             name:kNotifeeDidReceiveNotificationResponse
-           object:nil
-  ];
-  [[NSNotificationCenter defaultCenter]
-      addObserver:self
-         selector:@selector(UNUNC_openSettingsForNotification:)
-             name:kNotifeeOpenSettingsForNotification
-           object:nil
-  ];
   hasListeners = YES;
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notifee_onNotificationEvent:) name:kNotifeeOnEventNotification object:nil];
 }
 
-// called when this module's last listener is removed, or on dealloc.
 - (void)stopObserving {
-  [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotifeeWillPresentNotification object:nil];
-  [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotifeeDidReceiveNotificationResponse object:nil];
-  [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotifeeOpenSettingsForNotification object:nil];
   hasListeners = NO;
+  [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotifeeOnEventNotification object:nil];
 }
 
 + (BOOL)requiresMainQueueSetup {
@@ -81,26 +65,9 @@ RCT_EXPORT_MODULE();
 
 # pragma mark - Events
 
-- (void)UNUNC_willPresentNotification:(NSNotification *)notification {
+- (void)notifee_onNotificationEvent:(NSNotification *)notification {
   if (hasListeners) {
-    [self sendEventWithName:@"app.notifee.notification.event" body:@{
-        @"type": @3,
-        @"detail": @{
-            @"notification": ((UNNotification *) notification.userInfo[@"notification"]).request.content.userInfo[kNotifeeUserInfoNotification],
-        }
-    }];
-  }
-}
-
-- (void)UNUNC_didReceiveNotificationResponse:(NSNotification *)notification {
-  if (hasListeners) {
-    [self sendEventWithName:@"app.notifee.notification.event" body:@{@"name": @"todo"}];
-  }
-}
-
-- (void)UNUNC_openSettingsForNotification:(NSNotification *)notification {
-  if (hasListeners) {
-    [self sendEventWithName:@"app.notifee.notification.event" body:@{@"name": @"todo"}];
+    [self sendEventWithName:kReactNativeNotifeeNotificationEvent body:notification.userInfo];
   }
 }
 

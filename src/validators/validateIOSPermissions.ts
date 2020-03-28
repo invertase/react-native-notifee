@@ -9,7 +9,6 @@ export default function validateIOSPermissions(
     badge: true,
     sound: true,
     carPlay: true,
-    inAppNotificationSettings: false,
     provisional: false,
     announcement: false,
     criticalAlert: false,
@@ -49,14 +48,6 @@ export default function validateIOSPermissions(
     }
 
     out.carPlay = permissions.carPlay;
-  }
-
-  if (hasOwnProperty(permissions, 'inAppNotificationSettings')) {
-    if (!isBoolean(permissions.inAppNotificationSettings)) {
-      throw new Error("'inAppNotificationSettings' expected a boolean value.");
-    }
-
-    out.inAppNotificationSettings = permissions.inAppNotificationSettings;
   }
 
   if (hasOwnProperty(permissions, 'provisional')) {

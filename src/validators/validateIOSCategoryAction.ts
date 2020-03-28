@@ -27,7 +27,7 @@ export default function validateIOSCategoryAction(
 
   if (hasOwnProperty(action, 'input') && !isUndefined(action.input)) {
     if (isBoolean(action.input) && action.input) {
-      out.input = validateIOSInput();
+      out.input = true;
     } else {
       try {
         out.input = validateIOSInput(action.input);
