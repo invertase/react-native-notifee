@@ -2,7 +2,7 @@
  * Copyright (c) 2016-present Invertase Limited
  */
 
-import { Importance } from '..';
+import { Importance, NotificationPressAction } from '..';
 
 /**
  * The interface for Android specific options which are applied to a notification.
@@ -239,7 +239,7 @@ export interface NotificationAndroid {
    * View the  [Interaction](/react-native/docs/android/interaction) documentation to learn
    * more.
    */
-  pressAction?: AndroidPressAction;
+  pressAction?: NotificationPressAction;
 
   /**
    * Set a notification importance for devices without channel support.
@@ -414,7 +414,7 @@ export interface AndroidAction {
    * and can perform background tasks. See the [AndroidPressAction](/react-native/reference/androidpressaction) reference
    * or [Quick Actions](/react-native/docs/android/interaction#quick-actions) documentation to learn more.
    */
-  pressAction: AndroidPressAction;
+  pressAction: NotificationPressAction;
 
   /**
    * The title of the notification, e.g. "Reply", "Mark as read" etc.
@@ -438,52 +438,6 @@ export interface AndroidAction {
    * learn more.
    */
   input?: true | AndroidInput;
-}
-
-/**
- * The interface used to describe a press action for Android notifications.
- *
- * There are various ways a user can interact with a notification, the most common being pressing
- * the notification, pressing an action or providing text input. This interface defines what happens
- * when a user performs such interaction.
- *
- * When provided to a notification action, the action will only open the application if a `launchActivity`
- * and/or `mainComponent` is provided.
- *
- * @platform android
- */
-export interface AndroidPressAction {
-  /**
-   * The unique ID for the action.
-   *
-   * The `id` property is used to differentiate between user press actions. When listening to notification
-   * events via `onEvent`, the ID can be read from the `event.pressAction` object.
-   */
-  id: string;
-
-  /**
-   * The custom Android Activity to launch on a press action.
-   *
-   * This property can be used in advanced scenarios to launch a custom Android Activity when the user
-   * performs a press action.
-   *
-   * View the [Interaction](/react-native/docs/android/interaction) to learn more.
-   *
-   * @platform android Android
-   */
-  launchActivity?: string;
-
-  /**
-   * A custom registered React component to launch on press action.
-   *
-   * This property can be used to open a custom React component when the user performs a press action.
-   * For this to correctly function, a basic native code change is required.
-   *
-   * View the [Press Action](/react-native/docs/android/interaction#press-action) document to learn more.
-   *
-   * @platform android Android
-   */
-  mainComponent?: string;
 }
 
 /**

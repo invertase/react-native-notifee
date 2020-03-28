@@ -4,7 +4,6 @@
 
 import { NotificationIOS } from './NotificationIOS';
 import {
-  AndroidPressAction,
   NativeAndroidChannel,
   NativeAndroidChannelGroup,
   NotificationAndroid,
@@ -85,7 +84,7 @@ export interface InitialNotification {
   /**
    * The press action which the user interacted with, on the notification, which caused the application to open.
    */
-  pressAction: AndroidPressAction;
+  pressAction: NotificationPressAction;
 }
 
 /**
@@ -115,6 +114,50 @@ export interface Event {
  * learn more.
  */
 export type ForegroundServiceTask = (notification: Notification) => Promise<void>;
+
+/**
+ * The interface used to describe a press action for a notification.
+ *
+ * There are various ways a user can interact with a notification, the most common being pressing
+ * the notification, pressing an action or providing text input. This interface defines what happens
+ * when a user performs such interaction.
+ *
+ * On Android; when provided to a notification action, the action will only open you application if
+ * a `launchActivity` and/or a `mainComponent` is provided.
+ */
+export interface NotificationPressAction {
+  /**
+   * The unique ID for the action.
+   *
+   * The `id` property is used to differentiate between user press actions. When listening to notification
+   * events, the ID can be read from the `event.detail.pressAction` object.
+   */
+  id: string;
+
+  /**
+   * The custom Android Activity to launch on a press action.
+   *
+   * This property can be used in advanced scenarios to launch a custom Android Activity when the user
+   * performs a press action.
+   *
+   * View the [Android Interaction](/react-native/docs/android/interaction) docs to learn more.
+   *
+   * @platform android Android
+   */
+  launchActivity?: string;
+
+  /**
+   * A custom registered React component to launch on press action.
+   *
+   * This property can be used to open a custom React component when the user performs a press action.
+   * For this to correctly function on Android, a minor native code change is required.
+   *
+   * View the [Press Action](/react-native/docs/android/interaction#press-action) document to learn more.
+   *
+   * @platform android Android
+   */
+  mainComponent?: string;
+}
 
 /**
  * An enum representing an event type, defined on [`Event`](/react-native/reference/event).
@@ -214,7 +257,7 @@ export interface EventDetail {
    * - [`EventType.PRESS`](/react-native/reference/eventtype#press)
    * - [`EventType.ACTION_PRESS`](/react-native/reference/eventtype#action_press)
    */
-  pressAction?: AndroidPressAction;
+  pressAction?: NotificationPressAction;
 
   /**
    * The input from a notification action.
