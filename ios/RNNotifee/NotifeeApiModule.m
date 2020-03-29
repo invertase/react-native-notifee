@@ -16,7 +16,6 @@
  */
 
 #import "NotifeeApiModule.h"
-#import <NotifeeCore/Notifee.h>
 
 static NSString *kReactNativeNotifeeNotificationEvent = @"app.notifee.notification.event";
 
@@ -34,7 +33,7 @@ RCT_EXPORT_MODULE();
 
 - (id)init {
   if (self = [super init]) {
-    [Notifee initialize];
+    [NotifeeCore setCoreDelegate:self];
   }
   return self;
 }
@@ -51,12 +50,10 @@ RCT_EXPORT_MODULE();
 
 - (void)startObserving {
   hasListeners = YES;
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notifee_onNotificationEvent:) name:kNotifeeOnEventNotification object:nil];
 }
 
 - (void)stopObserving {
   hasListeners = NO;
-  [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotifeeOnEventNotification object:nil];
 }
 
 + (BOOL)requiresMainQueueSetup {
@@ -65,9 +62,11 @@ RCT_EXPORT_MODULE();
 
 # pragma mark - Events
 
-- (void)notifee_onNotificationEvent:(NSNotification *)notification {
+- (void)didReceiveNotifeeCoreEvent:(NSDictionary *_Nonnull)event {
   if (hasListeners) {
-    [self sendEventWithName:kReactNativeNotifeeNotificationEvent body:notification.userInfo];
+    [self sendEventWithName:kReactNativeNotifeeNotificationEvent body:event];
+  } else {
+    // TODO pool events until hasListeners = YES
   }
 }
 
@@ -80,7 +79,7 @@ RCT_EXPORT_METHOD(cancelNotification:
       reject:
       (RCTPromiseRejectBlock) reject
 ) {
-  [[Notifee instance] cancelNotification:notificationId withBlock:^(NSError *_Nullable error) {
+  [NotifeeCore cancelNotification:notificationId withBlock:^(NSError *_Nullable error) {
     [self resolve:resolve orReject:reject promiseWithError:error orResult:nil];
   }];
 }
@@ -92,7 +91,7 @@ RCT_EXPORT_METHOD(displayNotification:
       reject:
       (RCTPromiseRejectBlock) reject
 ) {
-  [[Notifee instance] displayNotification:notification withBlock:^(NSError *_Nullable error) {
+  [NotifeeCore displayNotification:notification withBlock:^(NSError *_Nullable error) {
     [self resolve:resolve orReject:reject promiseWithError:error orResult:nil];
   }];
 }
@@ -104,7 +103,7 @@ RCT_EXPORT_METHOD(requestPermission:
       reject:
       (RCTPromiseRejectBlock) reject
 ) {
-  [[Notifee instance] requestPermission:permissions withBlock:^(NSError *_Nullable error, NSDictionary *settings) {
+  [NotifeeCore requestPermission:permissions withBlock:^(NSError *_Nullable error, NSDictionary *settings) {
     [self resolve:resolve orReject:reject promiseWithError:error orResult:settings];
   }];
 }
@@ -114,7 +113,17 @@ RCT_EXPORT_METHOD(getNotificationSettings:
       reject:
       (RCTPromiseRejectBlock) reject
 ) {
-  [[Notifee instance] getNotificationSettings:^(NSError *_Nullable error, NSDictionary *settings) {
+  [NotifeeCore getNotificationSettings:^(NSError *_Nullable error, NSDictionary *settings) {
+    [self resolve:resolve orReject:reject promiseWithError:error orResult:settings];
+  }];
+}
+
+RCT_EXPORT_METHOD(getInitialNotification:
+  (RCTPromiseResolveBlock) resolve
+      reject:
+      (RCTPromiseRejectBlock) reject
+) {
+  [NotifeeCore getInitialNotification:^(NSError *_Nullable error, NSDictionary *settings) {
     [self resolve:resolve orReject:reject promiseWithError:error orResult:settings];
   }];
 }
@@ -124,7 +133,7 @@ RCT_EXPORT_METHOD(getNotificationCategories:
       reject:
       (RCTPromiseRejectBlock) reject
 ) {
-  [[Notifee instance] getNotificationCategoriesWithBlock:^(NSError *_Nullable error, NSArray<NSDictionary *> *categories) {
+  [NotifeeCore getNotificationCategories:^(NSError *_Nullable error, NSArray<NSDictionary *> *categories) {
     [self resolve:resolve orReject:reject promiseWithError:error orResult:categories];
   }];
 }
@@ -136,7 +145,7 @@ RCT_EXPORT_METHOD(setNotificationCategories:
       reject:
       (RCTPromiseRejectBlock) reject
 ) {
-  [[Notifee instance] setNotificationCategories:categories withBlock:^(NSError *_Nullable error) {
+  [NotifeeCore setNotificationCategories:categories withBlock:^(NSError *_Nullable error) {
     [self resolve:resolve orReject:reject promiseWithError:error orResult:nil];
   }];
 }

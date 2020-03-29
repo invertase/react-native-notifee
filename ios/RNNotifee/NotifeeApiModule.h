@@ -18,7 +18,8 @@
 #import <Foundation/Foundation.h>
 #import <React/RCTBridgeModule.h>
 #import <React/RCTEventEmitter.h>
+#import <NotifeeCore/NotifeeCore.h>
 
-@interface NotifeeApiModule : RCTEventEmitter <RCTBridgeModule>
+@interface NotifeeApiModule : RCTEventEmitter <RCTBridgeModule, NotifeeCoreDelegate>
 
 @end
