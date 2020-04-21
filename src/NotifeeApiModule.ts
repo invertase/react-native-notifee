@@ -56,21 +56,6 @@ export default class NotifeeApiModule extends NotifeeNativeModule implements Mod
     return this.native.cancelNotification(notificationId);
   }
 
-  public createCategory(category: IOSNotificationCategory): Promise<string> {
-    let options: IOSNotificationCategory;
-    try {
-      options = validateIOSCategory(category);
-    } catch (e) {
-      throw new Error(`notifee.createCategory(*) ${e.message}`);
-    }
-
-    if (isAndroid) {
-      return Promise.resolve('');
-    }
-
-    return this.native.createCategory(options);
-  }
-
   public createChannel(channel: AndroidChannel): Promise<string> {
     let options: AndroidChannel;
     try {

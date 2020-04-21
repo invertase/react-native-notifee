@@ -41,8 +41,6 @@ export interface Module {
    */
   cancelNotification(notificationId: string): Promise<void>;
 
-  createCategory(category: IOSNotificationCategory): Promise<string>;
-
   /**
    * API to create and update channels on supported Android devices.
    *
