@@ -144,8 +144,10 @@ export interface Module {
    *
    * @param notification The [`Notification`](/react-native/reference/notification) interfaced used
    * to create a notification for both Android & iOS.
+   * @param trigger TODO
    */
-  displayNotification(notification: Notification): Promise<string>;
+  // TODO
+  displayNotification(notification: Notification, trigger?: any): Promise<string>;
 
   /**
    * API used to return a channel on supported Android devices.
@@ -390,9 +392,6 @@ export interface Module {
    * @platform ios
    */
   decrementBadgeCount(decrementBy?: number): Promise<void>;
-
-  // TODO introduce as part of iOS
-  // scheduleNotification(notification: Notification, schedule: Schedule): Promise<void>;
 }
 
 /**

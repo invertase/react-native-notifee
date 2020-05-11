@@ -99,8 +99,8 @@ public class NotifeeApiModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void displayNotification(ReadableMap notificationMap, Promise promise) {
-    Notifee.getInstance().displayNotification(Arguments.toBundle(notificationMap),
+  public void displayNotification(ReadableMap notificationMap, ReadableMap triggerMap, Promise promise) {
+    Notifee.getInstance().displayNotification(Arguments.toBundle(notificationMap), Arguments.toBundle(triggerMap),
       (e, aVoid) -> NotifeeReactUtils.promiseResolver(promise, e)
     );
   }
@@ -142,16 +142,6 @@ public class NotifeeApiModule extends ReactContextBaseJavaModule {
     Notifee.getInstance().openNotificationSettings(channelId, getCurrentActivity(),
       (e, aVoid) -> NotifeeReactUtils.promiseResolver(promise, e)
     );
-  }
-
-  @ReactMethod
-  public void scheduleNotification(
-    ReadableMap notification, ReadableMap schedule, Promise promise
-  ) {
-    Notifee.getInstance()
-      .scheduleNotification(Arguments.toBundle(notification), Arguments.toBundle(schedule),
-        (e, aVoid) -> NotifeeReactUtils.promiseResolver(promise, e)
-      );
   }
 
   @NonNull

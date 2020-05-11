@@ -28,22 +28,19 @@ import validateIOSPermissions from './validators/validateIOSPermissions';
 let onNotificationEventHeadlessTaskRegistered = false;
 let registeredForegroundServiceTask: (notification: Notification) => Promise<void>;
 
-export default class NotifeeApiModule extends NotifeeNativeModule implements Module {
-  constructor(config: NativeModuleConfig) {
-    super(config);
-    if (isAndroid) {
-      AppRegistry.registerHeadlessTask(this.native.FOREGROUND_NOTIFICATION_TASK_KEY, () => {
-        if (!registeredForegroundServiceTask) {
-          console.warn(
-            '[notifee] no registered foreground service has been set for displaying a foreground notification.',
-          );
-          return (): Promise<void> => Promise.resolve();
-        }
-        return ({ notification }): Promise<void> => registeredForegroundServiceTask(notification);
-      });
+if (isAndroid) {
+  AppRegistry.registerHeadlessTask('app.notifee.notification.event', () => {
+    if (!registeredForegroundServiceTask) {
+      console.warn(
+        '[notifee] no registered foreground service has been set for displaying a foreground notification.',
+      );
+      return (): Promise<void> => Promise.resolve();
     }
-  }
+    return ({ notification }): Promise<void> => registeredForegroundServiceTask(notification);
+  });
+}
 
+export default class NotifeeApiModule extends NotifeeNativeModule implements Module {
   public cancelAllNotifications(): Promise<void> {
     return this.native.cancelAllNotifications();
   }
@@ -168,7 +165,8 @@ export default class NotifeeApiModule extends NotifeeNativeModule implements Mod
     return this.native.deleteChannelGroup(channelGroupId);
   }
 
-  public displayNotification(notification: Notification): Promise<string> {
+  // TODO
+  public displayNotification(notification: Notification, trigger?: any): Promise<string> {
     let options: Notification;
     try {
       options = validateNotification(notification);
@@ -176,7 +174,7 @@ export default class NotifeeApiModule extends NotifeeNativeModule implements Mod
       throw new Error(`notifee.displayNotification(*) ${e.message}`);
     }
 
-    return this.native.displayNotification(options).then((): string => {
+    return this.native.displayNotification(options, trigger).then((): string => {
       return options.id as string;
     });
   }
@@ -396,23 +394,4 @@ export default class NotifeeApiModule extends NotifeeNativeModule implements Mod
 
     return this.native.decrementBadgeCount(Math.round(value));
   }
-
-  // public scheduleNotification(notification: Notification, schedule: Schedule): Promise<void> {
-  //   return Promise.resolve();
-  // let notificationOptions;
-  // try {
-  //   notificationOptions = validateNotification(notification);
-  // } catch (e) {
-  //   throw new Error(`notifee.scheduleNotification(*) ${e.message}`);
-  // }
-  //
-  // let scheduleOptions;
-  // // try {
-  // //   scheduleOptions = validateSchedule(schedule);
-  // // } catch (e) {
-  // //   throw new Error(`notifee.scheduleNotification(_, *) ${e.message}`);
-  // // }
-  //
-  // return this.native.scheduleNotification(notificationOptions, scheduleOptions);
-  // }
 }
