@@ -144,9 +144,9 @@ export interface Module {
    *
    * @param notification The [`Notification`](/react-native/reference/notification) interfaced used
    * to create a notification for both Android & iOS.
-   * @param trigger TODO
+   * @param trigger TODO(salakar) Trigger types
    */
-  // TODO
+  // TODO(salakar) Trigger types
   displayNotification(notification: Notification, trigger?: any): Promise<string>;
 
   /**
