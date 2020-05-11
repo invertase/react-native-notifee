@@ -29,7 +29,10 @@
     "react-native": "^0.62.2",
     "rimraf": "^2.7.1",
     "ts-jest": "^25.4.0",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "@babel/preset-flow": "^7.9.0",
+    "metro-react-native-babel-preset": "^0.59.0",
+    "react": "^16.13.1"
   },
   "peerDependencies": {
     "react-native": "*"
@@ -54,10 +57,5 @@
   ],
   "publishConfig": {
     "access": "public"
-  },
-  "dependencies": {
-    "@babel/preset-flow": "^7.9.0",
-    "metro-react-native-babel-preset": "^0.59.0",
-    "react": "^16.13.1"
   }
 }
