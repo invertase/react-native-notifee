@@ -11,7 +11,7 @@ import {
   NativeAndroidChannelGroup,
 } from './types/NotificationAndroid';
 import { InitialNotification, Notification, Event } from './types/Notification';
-import NotifeeNativeModule, { NativeModuleConfig } from './NotifeeNativeModule';
+import NotifeeNativeModule from './NotifeeNativeModule';
 
 import { isAndroid, isArray, isFunction, isIOS, isNumber, isString, isUndefined } from './utils';
 import validateNotification from './validators/validateNotification';
