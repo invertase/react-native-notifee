@@ -11,7 +11,7 @@ import {
   NativeAndroidChannelGroup,
 } from './types/NotificationAndroid';
 import { InitialNotification, Notification, Event } from './types/Notification';
-import NotifeeNativeModule, { NativeModuleConfig } from './NotifeeNativeModule';
+import NotifeeNativeModule from './NotifeeNativeModule';
 
 import { isAndroid, isArray, isFunction, isIOS, isNumber, isString, isUndefined } from './utils';
 import validateNotification from './validators/validateNotification';
@@ -165,7 +165,7 @@ export default class NotifeeApiModule extends NotifeeNativeModule implements Mod
     return this.native.deleteChannelGroup(channelGroupId);
   }
 
-  // TODO
+  // TODO(salakar) Trigger types
   public displayNotification(notification: Notification, trigger?: any): Promise<string> {
     let options: Notification;
     try {
@@ -174,7 +174,14 @@ export default class NotifeeApiModule extends NotifeeNativeModule implements Mod
       throw new Error(`notifee.displayNotification(*) ${e.message}`);
     }
 
-    return this.native.displayNotification(options, trigger).then((): string => {
+    // TODO(salakar) only android triggers currently implemented
+    if (isAndroid) {
+      return this.native.displayNotification(options, trigger).then((): string => {
+        return options.id as string;
+      });
+    }
+
+    return this.native.displayNotification(options).then((): string => {
       return options.id as string;
     });
   }
