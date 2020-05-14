@@ -454,15 +454,11 @@ export default function validateAndroidNotification(
    * smallIcon
    */
   if (hasOwnProperty(android, 'smallIcon') && !isUndefined(android.smallIcon)) {
-    if (!isNumber(android.smallIcon)) {
-      throw new Error(
-        "'notification.android.smallIcon' expected value to be a number created using the 'require()' method in React Native code.",
-      );
+    if (!isString(android.smallIcon)) {
+      throw new Error("'notification.android.smallIcon' expected value to be a string.");
     }
 
-    const image = resolveAssetSource(android.smallIcon);
-
-    out.smallIcon = image.uri;
+    out.smallIcon = android.smallIcon;
   }
 
   /**
