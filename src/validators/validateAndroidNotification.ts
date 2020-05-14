@@ -280,11 +280,14 @@ export default function validateAndroidNotification(
    * largeIcon
    */
   if (hasOwnProperty(android, 'largeIcon')) {
-    if (!isString(android.largeIcon) || !android.largeIcon) {
-      throw new Error("'notification.android.largeIcon' expected a string value.");
+    if (!isNumber(android.largeIcon) || !android.largeIcon) {
+      throw new Error(
+        "'notification.android.largeIcon' expected a number created using the 'require()' method in React Native code.",
+      );
     }
+    const image = resolveAssetSource(android.largeIcon);
 
-    out.largeIcon = android.largeIcon;
+    out.largeIcon = image.uri;
   }
 
   /**
@@ -451,11 +454,15 @@ export default function validateAndroidNotification(
    * smallIcon
    */
   if (hasOwnProperty(android, 'smallIcon') && !isUndefined(android.smallIcon)) {
-    if (!isString(android.smallIcon)) {
-      throw new Error("'notification.android.smallIcon' expected value to be a string.");
+    if (!isNumber(android.smallIcon)) {
+      throw new Error(
+        "'notification.android.smallIcon' expected value to be a number created using the 'require()' method in React Native code.",
+      );
     }
 
-    out.smallIcon = android.smallIcon;
+    const image = resolveAssetSource(android.smallIcon);
+
+    out.smallIcon = image.uri;
   }
 
   /**
