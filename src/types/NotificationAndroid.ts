@@ -179,12 +179,14 @@ export interface NotificationAndroid {
   inputHistory?: string[];
 
   /**
+   * A remote http or local file path to the picture to display.
+   *
    * Sets a large icon on the notification.
    *
    * View the [Android Appearance](/react-native/docs/android/appearance#large-icons) documentation to learn
    * more about this property.
    */
-  largeIcon?: string;
+  largeIcon?: string | number;
 
   /**
    * Sets the color and frequency of the light pattern. This only has effect on supported devices.
@@ -513,7 +515,7 @@ export interface AndroidBigPictureStyle {
    * The image will be automatically resized depending on the device and it's size. If the image could
    * not be found a blank space will appear.
    */
-  picture: string;
+  picture: string | number;
 
   /**
    * If set, overrides the main notification `title` when the notification is expanded.
@@ -521,9 +523,11 @@ export interface AndroidBigPictureStyle {
   title?: string;
 
   /**
+   * A remote http or local file path to the picture to display.
+   *
    * If set, overrides the main notification `largeIcon` when the notification is expanded.
    */
-  largeIcon?: string;
+  largeIcon?: string | number;
 
   /**
    * If set, overrides the main notification `summary` when the notification is expanded.
