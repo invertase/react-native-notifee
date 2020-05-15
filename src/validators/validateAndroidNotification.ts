@@ -461,7 +461,7 @@ export default function validateAndroidNotification(
   /**
    * smallIconLevel
    */
-  if (checkForProperty(android, 'smallIconLevel') && !isUndefined(android.smallIcon)) {
+  if (checkForProperty(android, 'smallIconLevel') && !isUndefined(android.smallIconLevel)) {
     if (!isNumber(android.smallIconLevel)) {
       throw new Error("'notification.android.smallIconLevel' expected value to be a number.");
     }
