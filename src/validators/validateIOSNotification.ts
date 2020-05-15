@@ -3,12 +3,15 @@
  */
 
 import { Importance } from '../types/Notification';
-import { NotificationIOS } from '../types/NotificationIOS';
-import { checkForProperty, isBoolean, isNumber, isString, isUndefined } from '../utils';
+import { NotificationIOS, ForegroundPresentationOptionsIOS } from '../types/NotificationIOS';
+import { checkForProperty, isBoolean, isNumber, isString, isUndefined, isObject } from '../utils';
 
 export default function validateIOSNotification(ios?: NotificationIOS): NotificationIOS {
-  const out: NotificationIOS = {
+  const out: NotificationIOS & {
+    foregroundPresentationOptions: ForegroundPresentationOptionsIOS;
+  } = {
     importance: Importance.DEFAULT,
+    foregroundPresentationOptions: { alert: false, badge: true, sound: false },
   };
 
   if (isUndefined(ios)) {
@@ -162,6 +165,53 @@ export default function validateIOSNotification(ios?: NotificationIOS): Notifica
     }
 
     out.sound = ios.sound;
+  }
+
+  /**
+   * ForegroundPresentationOptions
+   */
+  if (checkForProperty(ios, 'foregroundPresentationOptions')) {
+    if (!isObject(ios.foregroundPresentationOptions)) {
+      throw new Error(
+        "'notification.ios.foregroundPresentationOptions' expected a valid ForegroundPresentationOptionsIOS object.",
+      );
+    }
+
+    if (
+      checkForProperty<ForegroundPresentationOptionsIOS>(ios.foregroundPresentationOptions, 'alert')
+    ) {
+      if (!isBoolean(ios.foregroundPresentationOptions.alert)) {
+        throw new Error(
+          "'notification.ios.foregroundPresentationOptions.alert' expected a boolean value.",
+        );
+      }
+
+      out.foregroundPresentationOptions.alert = ios.foregroundPresentationOptions.alert;
+    }
+
+    if (
+      checkForProperty<ForegroundPresentationOptionsIOS>(ios.foregroundPresentationOptions, 'sound')
+    ) {
+      if (!isBoolean(ios.foregroundPresentationOptions.sound)) {
+        throw new Error(
+          "'notification.ios.foregroundPresentationOptions.sound' expected a boolean value.",
+        );
+      }
+
+      out.foregroundPresentationOptions.sound = ios.foregroundPresentationOptions.sound;
+    }
+
+    if (
+      checkForProperty<ForegroundPresentationOptionsIOS>(ios.foregroundPresentationOptions, 'badge')
+    ) {
+      if (!isBoolean(ios.foregroundPresentationOptions.badge)) {
+        throw new Error(
+          "'notification.ios.foregroundPresentationOptions.badge' expected a boolean value.",
+        );
+      }
+
+      out.foregroundPresentationOptions.badge = ios.foregroundPresentationOptions.badge;
+    }
   }
 
   return out;
