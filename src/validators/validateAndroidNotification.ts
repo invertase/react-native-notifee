@@ -280,15 +280,19 @@ export default function validateAndroidNotification(
    * largeIcon
    */
   if (checkForProperty(android, 'largeIcon')) {
-    if ((!isNumber(android.largeIcon) && !isString(android.largeIcon)) || !android.largeIcon) {
+    if (
+      (!isNumber(android.largeIcon) &&
+        !isString(android.largeIcon) &&
+        !isObject(android.largeIcon)) ||
+      !android.largeIcon
+    ) {
       throw new Error(
-        "'notification.android.largeIcon' expected a number created using the 'require()' method in React Native code or a valid string URL.",
+        "'notification.android.largeIcon' expected a number or object created using the 'require()' method in React Native code or a valid string URL.",
       );
     }
 
-    if (isNumber(android.largeIcon)) {
+    if (isNumber(android.largeIcon) || isObject(android.largeIcon)) {
       const image = resolveAssetSource(android.largeIcon);
-
       out.largeIcon = image.uri;
     } else {
       out.largeIcon = android.largeIcon;

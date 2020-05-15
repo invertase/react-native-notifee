@@ -22,9 +22,12 @@ import { checkForProperty, isArray, isBoolean, isNumber, isObject, isString } fr
 export function validateAndroidBigPictureStyle(
   style: AndroidBigPictureStyle,
 ): AndroidBigPictureStyle {
-  if ((!isString(style.picture) && !isNumber(style.picture)) || !style.picture) {
+  if (
+    (!isString(style.picture) && !isNumber(style.picture) && !isObject(style.picture)) ||
+    !style.picture
+  ) {
     throw new Error(
-      "'notification.android.style' BigPictureStyle: 'picture' expected a number created using the 'require()' method in React Native code or a valid string URL.",
+      "'notification.android.style' BigPictureStyle: 'picture' expected a number or object created using the 'require()' method in React Native code or a valid string URL.",
     );
   }
 
@@ -34,19 +37,19 @@ export function validateAndroidBigPictureStyle(
     picture: style.picture,
   };
 
-  if (isNumber(style.picture)) {
+  if (isNumber(style.picture) || isObject(style.picture)) {
     const image = resolveAssetSource(style.picture);
 
     out.picture = image.uri;
   }
 
   if (checkForProperty(style, 'largeIcon')) {
-    if (!isString(style.largeIcon) && !isNumber(style.largeIcon)) {
+    if (!isString(style.largeIcon) && !isNumber(style.largeIcon) && !isObject(style.largeIcon)) {
       throw new Error(
-        "'notification.android.style' BigPictureStyle: 'largeIcon' expected a number created using the 'require()' method in React Native code or a valid string URL.",
+        "'notification.android.style' BigPictureStyle: 'largeIcon' expected a number or object created using the 'require()' method in React Native code or a valid string URL.",
       );
     }
-    if (isNumber(style.largeIcon)) {
+    if (isNumber(style.largeIcon) || isObject(style.largeIcon)) {
       const image = resolveAssetSource(style.largeIcon);
 
       out.largeIcon = image.uri;
