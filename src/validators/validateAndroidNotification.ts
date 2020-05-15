@@ -287,7 +287,7 @@ export default function validateAndroidNotification(
       !android.largeIcon
     ) {
       throw new Error(
-        "'notification.android.largeIcon' expected a number or object created using the 'require()' method in React Native code or a valid string URL.",
+        "'notification.android.largeIcon' expected a number or object created using the 'require()' method or a valid string URL.",
       );
     }
 
