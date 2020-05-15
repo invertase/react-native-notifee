@@ -24,7 +24,7 @@ export function validateAndroidBigPictureStyle(
 ): AndroidBigPictureStyle {
   if ((!isString(style.picture) && !isNumber(style.picture)) || !style.picture) {
     throw new Error(
-      "'notification.android.style' BigPictureStyle: 'picture' a number created using the 'require()' method in React Native code or a valid string URL.",
+      "'notification.android.style' BigPictureStyle: 'picture' expected a number created using the 'require()' method in React Native code or a valid string URL.",
     );
   }
 
