@@ -4,7 +4,7 @@
 
 import { Importance } from '../types/Notification';
 import { NotificationIOS } from '../types/NotificationIOS';
-import { hasOwnProperty, isBoolean, isNumber, isString, isUndefined } from '../utils';
+import { checkForProperty, isBoolean, isNumber, isString, isUndefined } from '../utils';
 
 export default function validateIOSNotification(ios?: NotificationIOS): NotificationIOS {
   const out: NotificationIOS = {
@@ -20,7 +20,7 @@ export default function validateIOSNotification(ios?: NotificationIOS): Notifica
    *
    * TODO attachments
    */
-  if (hasOwnProperty(ios, 'attachments')) {
+  if (checkForProperty(ios, 'attachments')) {
     //   if (!isArray(ios.attachments)) {
     //     throw new Error("'notification.android.attachments' expected an array value.");
     //   }
@@ -39,7 +39,7 @@ export default function validateIOSNotification(ios?: NotificationIOS): Notifica
   /**
    * critical
    */
-  if (hasOwnProperty(ios, 'critical')) {
+  if (checkForProperty(ios, 'critical')) {
     if (!isBoolean(ios.critical)) {
       throw new Error("'notification.ios.critical' must be a boolean value if specified.");
     } else {
@@ -50,7 +50,7 @@ export default function validateIOSNotification(ios?: NotificationIOS): Notifica
   /**
    * criticalVolume
    */
-  if (hasOwnProperty(ios, 'criticalVolume')) {
+  if (checkForProperty(ios, 'criticalVolume')) {
     if (!isNumber(ios.criticalVolume)) {
       throw new Error("'notification.ios.criticalVolume' must be a number value if specified.");
     } else {
@@ -66,7 +66,7 @@ export default function validateIOSNotification(ios?: NotificationIOS): Notifica
   /**
    * sound
    */
-  if (hasOwnProperty(ios, 'sound')) {
+  if (checkForProperty(ios, 'sound')) {
     if (isString(ios.sound)) {
       out.sound = ios.sound;
     } else {
@@ -77,7 +77,7 @@ export default function validateIOSNotification(ios?: NotificationIOS): Notifica
   /**
    * badgeCount
    */
-  if (hasOwnProperty(ios, 'badgeCount')) {
+  if (checkForProperty(ios, 'badgeCount')) {
     if (!isNumber(ios.badgeCount) || ios.badgeCount < 0) {
       throw new Error("'notification.ios.badgeCount' expected a number value >=0.");
     }
@@ -88,7 +88,7 @@ export default function validateIOSNotification(ios?: NotificationIOS): Notifica
   /**
    * categoryId
    */
-  if (hasOwnProperty(ios, 'categoryId')) {
+  if (checkForProperty(ios, 'categoryId')) {
     if (!isString(ios.categoryId)) {
       throw new Error("'notification.ios.categoryId' expected a of string value");
     }
@@ -99,7 +99,7 @@ export default function validateIOSNotification(ios?: NotificationIOS): Notifica
   /**
    * groupId
    */
-  if (hasOwnProperty(ios, 'threadId')) {
+  if (checkForProperty(ios, 'threadId')) {
     if (!isString(ios.threadId)) {
       throw new Error("'notification.ios.threadId' expected a string value.");
     }
@@ -110,7 +110,7 @@ export default function validateIOSNotification(ios?: NotificationIOS): Notifica
   /**
    * summaryArgument
    */
-  if (hasOwnProperty(ios, 'summaryArgument')) {
+  if (checkForProperty(ios, 'summaryArgument')) {
     if (!isString(ios.summaryArgument)) {
       throw new Error("'notification.ios.summaryArgument' expected a string value.");
     }
@@ -121,7 +121,7 @@ export default function validateIOSNotification(ios?: NotificationIOS): Notifica
   /**
    * summaryArgumentCount
    */
-  if (hasOwnProperty(ios, 'summaryArgumentCount')) {
+  if (checkForProperty(ios, 'summaryArgumentCount')) {
     if (!isNumber(ios.summaryArgumentCount) || ios.summaryArgumentCount <= 0) {
       throw new Error(
         "'notification.ios.summaryArgumentCount' expected a positive number greater than 0.",
@@ -134,7 +134,7 @@ export default function validateIOSNotification(ios?: NotificationIOS): Notifica
   /**
    * launchImageName
    */
-  if (hasOwnProperty(ios, 'launchImageName')) {
+  if (checkForProperty(ios, 'launchImageName')) {
     if (!isString(ios.launchImageName)) {
       throw new Error("'notification.ios.launchImageName' expected a string value.");
     }
@@ -145,7 +145,7 @@ export default function validateIOSNotification(ios?: NotificationIOS): Notifica
   /**
    * importance
    */
-  if (hasOwnProperty(ios, 'importance') && !isUndefined(ios.importance)) {
+  if (checkForProperty(ios, 'importance') && !isUndefined(ios.importance)) {
     if (!Object.values(Importance).includes(ios.importance)) {
       throw new Error("'notification.ios.importance' expected a valid Importance.");
     }
@@ -156,7 +156,7 @@ export default function validateIOSNotification(ios?: NotificationIOS): Notifica
   /**
    * sound
    */
-  if (hasOwnProperty(ios, 'sound')) {
+  if (checkForProperty(ios, 'sound')) {
     if (!isString(ios.sound)) {
       throw new Error("'notification.ios.sound' expected a string value.");
     }
