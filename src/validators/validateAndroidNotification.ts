@@ -280,12 +280,19 @@ export default function validateAndroidNotification(
    * largeIcon
    */
   if (checkForProperty(android, 'largeIcon')) {
-    if (!isString(android.largeIcon) || !android.largeIcon) {
-      throw new Error("'notification.android.largeIcon' expected a string value.");
+    if ((!isNumber(android.largeIcon) && !isString(android.largeIcon)) || !android.largeIcon) {
+      throw new Error(
+        "'notification.android.largeIcon' expected a number created using the 'require()' method in React Native code or a valid string URL.",
+      );
     }
-    const image = resolveAssetSource(android.largeIcon);
 
-    out.largeIcon = image.uri;
+    if (isNumber(android.largeIcon)) {
+      const image = resolveAssetSource(android.largeIcon);
+
+      out.largeIcon = image.uri;
+    } else {
+      out.largeIcon = android.largeIcon;
+    }
   }
 
   /**

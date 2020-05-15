@@ -2,6 +2,9 @@
  * Copyright (c) 2016-present Invertase Limited
  */
 
+// @ts-ignore
+import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource';
+
 import {
   AndroidBigPictureStyle,
   AndroidBigTextStyle,
@@ -19,9 +22,9 @@ import { checkForProperty, isArray, isBoolean, isNumber, isObject, isString } fr
 export function validateAndroidBigPictureStyle(
   style: AndroidBigPictureStyle,
 ): AndroidBigPictureStyle {
-  if (!isString(style.picture) || !style.picture) {
+  if ((!isString(style.picture) && !isNumber(style.picture)) || !style.picture) {
     throw new Error(
-      "'notification.android.style' BigPictureStyle: 'picture' expected a valid string value.",
+      "'notification.android.style' BigPictureStyle: 'picture' a number created using the 'require()' method in React Native code or a valid string URL.",
     );
   }
 
@@ -31,14 +34,25 @@ export function validateAndroidBigPictureStyle(
     picture: style.picture,
   };
 
+  if (isNumber(style.picture)) {
+    const image = resolveAssetSource(style.picture);
+
+    out.picture = image.uri;
+  }
+
   if (checkForProperty(style, 'largeIcon')) {
-    if (!isString(style.largeIcon)) {
+    if (!isString(style.largeIcon) && !isNumber(style.largeIcon)) {
       throw new Error(
-        "'notification.android.style' BigPictureStyle: 'largeIcon' expected a string value.",
+        "'notification.android.style' BigPictureStyle: 'largeIcon' expected a number created using the 'require()' method in React Native code or a valid string URL.",
       );
     }
+    if (isNumber(style.largeIcon)) {
+      const image = resolveAssetSource(style.largeIcon);
 
-    out.largeIcon = style.largeIcon;
+      out.largeIcon = image.uri;
+    } else {
+      out.largeIcon = style.largeIcon;
+    }
   }
 
   if (checkForProperty(style, 'title')) {
