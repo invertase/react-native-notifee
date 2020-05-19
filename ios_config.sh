@@ -29,7 +29,7 @@ _PLIST_ENTRY_VALUES=()
 
 function setPlistValue {
   echo "info:      setting plist entry '$1' of type '$2' in file '$4'"
-  ${_PLIST_BUDDY} -c "Add :$1 $2 '$3'" $4 || echo "info:      '$1' already exists"
+  ${_PLIST_BUDDY} -c "Add :$1 $2 '$3'" "$4" || echo "info:      '$1' already exists"
 }
 
 echo "info: -> NOTIFEE build script started"
