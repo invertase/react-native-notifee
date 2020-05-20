@@ -23,6 +23,7 @@ export default function validateNotification(notification: Notification): Notifi
   };
 
   if (isAndroid) {
+    /* istanbul ignore next */
     out.android = {};
   } else if (isIOS) {
     out.ios = {};
@@ -101,6 +102,7 @@ export default function validateNotification(notification: Notification): Notifi
    */
   const validatedAndroid = validateAndroidNotification(notification.android);
   if (isAndroid) {
+    /* istanbul ignore next */
     out.android = validatedAndroid;
   }
 

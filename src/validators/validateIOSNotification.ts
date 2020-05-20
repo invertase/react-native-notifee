@@ -153,16 +153,5 @@ export default function validateIOSNotification(ios?: NotificationIOS): Notifica
     out.importance = ios.importance;
   }
 
-  /**
-   * sound
-   */
-  if (checkForProperty(ios, 'sound')) {
-    if (!isString(ios.sound)) {
-      throw new Error("'notification.ios.sound' expected a string value.");
-    }
-
-    out.sound = ios.sound;
-  }
-
   return out;
 }
