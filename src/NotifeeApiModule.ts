@@ -276,9 +276,9 @@ export default class NotifeeApiModule extends NotifeeNativeModule implements Mod
 
   public requestPermission(
     permissions: IOSNotificationPermissions = {},
-  ): Promise<IOSNotificationSettings | null> {
+  ): Promise<IOSNotificationSettings | 1> {
     if (isAndroid) {
-      return Promise.resolve(null);
+      return Promise.resolve(1);
     }
 
     let options: IOSNotificationPermissions;

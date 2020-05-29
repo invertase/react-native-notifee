@@ -306,16 +306,14 @@ export interface Module {
   /**
    * Request specific notification permissions for your application on the current device.
    *
-   * Returns null on Android.
+   * Returns 1 (UNAuthorizationStatus.UNAuthorizationStatusAuthorized Enum = 1 for iOS) on Android.
    *
    *   TODO better description
    *
    * @platform ios
    * @param permissions
    */
-  requestPermission(
-    permissions?: IOSNotificationPermissions,
-  ): Promise<IOSNotificationSettings | null>;
+  requestPermission(permissions?: IOSNotificationPermissions): Promise<IOSNotificationSettings | 1>;
 
   /**
    * Set the notification categories to be used on this Apple device.
