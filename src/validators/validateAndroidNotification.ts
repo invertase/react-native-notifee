@@ -284,7 +284,7 @@ export default function validateAndroidNotification(
       (!isNumber(android.largeIcon) &&
         !isString(android.largeIcon) &&
         !isObject(android.largeIcon)) ||
-      !android.largeIcon
+      (isString(android.largeIcon) && !android.largeIcon.length)
     ) {
       throw new Error(
         "'notification.android.largeIcon' expected a React Native ImageResource value or a valid string URL.",

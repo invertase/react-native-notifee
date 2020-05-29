@@ -24,7 +24,7 @@ export function validateAndroidBigPictureStyle(
 ): AndroidBigPictureStyle {
   if (
     (!isString(style.picture) && !isNumber(style.picture) && !isObject(style.picture)) ||
-    !style.picture
+    (isString(style.picture) && !style.picture.length)
   ) {
     throw new Error(
       "'notification.android.style' BigPictureStyle: 'picture' expected a number or object created using the 'require()' method or a valid string URL.",
