@@ -510,7 +510,7 @@ export interface AndroidBigPictureStyle {
   type: AndroidStyle.BIGPICTURE;
 
   /**
-   * A local file path using the 'require()' method or a remote http to the picture to display.
+   * A local file path using the 'require()' method or a HTTP or file URL to the picture to display.
    *
    * The image will be automatically resized depending on the device and it's size. If the image could
    * not be found a blank space will appear.
@@ -523,7 +523,7 @@ export interface AndroidBigPictureStyle {
   title?: string;
 
   /**
-   * A local file path using the 'require()' method or a remote http to the picture to display.
+   * A local file path using the 'require()' method or a HTTP or file URL to the picture to display.
    *
    * If set, overrides the main notification `largeIcon` when the notification is expanded.
    */
