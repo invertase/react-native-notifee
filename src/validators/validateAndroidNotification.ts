@@ -609,7 +609,7 @@ export default function validateAndroidNotification(
 
     if (!isValidTimestamp(android.timestamp)) {
       throw new Error(
-        "'notification.android.timestamp' invalid millisecond timestamp, date must be in the future.",
+        "'notification.android.timestamp' invalid millisecond timestamp, date must be a positive number",
       );
     }
 

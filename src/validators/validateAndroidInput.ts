@@ -31,6 +31,10 @@ export default function validateAndroidInput(input?: AndroidInput): AndroidInput
     out.allowGeneratedReplies = input.allowGeneratedReplies;
   }
 
+  if (!out.allowFreeFormInput && (!input.choices || input.choices.length === 0)) {
+    throw new Error("'input.allowFreeFormInput' when false, you must provide at least one choice.");
+  }
+
   if (checkForProperty(input, 'choices')) {
     if (!isArrayOfStrings(input.choices) || input.choices.length === 0) {
       throw new Error("'input.choices' expected an array of string values.");
@@ -53,10 +57,6 @@ export default function validateAndroidInput(input?: AndroidInput): AndroidInput
     }
 
     out.placeholder = input.placeholder;
-  }
-
-  if (!out.allowFreeFormInput && (!out.choices || out.choices.length === 0)) {
-    throw new Error("'input.allowFreeFormInput' when false, you must provide at least one choice.");
   }
 
   if (out.editableChoices == true && !out.allowFreeFormInput) {
