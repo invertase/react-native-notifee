@@ -306,16 +306,33 @@ export interface Module {
   /**
    * Request specific notification permissions for your application on the current device.
    *
-   * Returns null on Android.
+   * Both iOS & Android return an `IOSNotificationSettings` interface. To check whether overall
+   * permission was granted, check the `authorizationStatus` property in the response:
    *
-   *   TODO better description
+   * ```js
+   * import notifee, { IOSAuthorizationStatus } from '@notifee/react-native';
+   *
+   * const settings = await notifee.requestPermission(...);
+   *
+   * if (settings.authorizationStatus === IOSAuthorizationStatus.DENIED) {
+   *   console.log('User denied permissions request');
+   * } else if (settings.authorizationStatus === IOSAuthorizationStatus.AUTHORIZED) {
+   *    console.log('User granted permissions request');
+   * } else if (settings.authorizationStatus === IOSAuthorizationStatus.PROVISIONAL) {
+   *    console.log('User provisionally granted permissions request');
+   * }
+   * ```
+   *
+   * Use the other `IOSNotificationSettings` properties to view which specific permissions were
+   * allowed.
+   *
+   * On Android, all of the properties on the `IOSNotificationSettings` interface response return
+   * as `AUTHORIZED`.
    *
    * @platform ios
    * @param permissions
    */
-  requestPermission(
-    permissions?: IOSNotificationPermissions,
-  ): Promise<IOSNotificationSettings | null>;
+  requestPermission(permissions?: IOSNotificationPermissions): Promise<IOSNotificationSettings>;
 
   /**
    * Set the notification categories to be used on this Apple device.
@@ -485,4 +502,5 @@ export interface ModuleStatics {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface ModuleWithStatics extends Module, ModuleStatics {}
+export interface ModuleWithStatics extends Module, ModuleStatics {
+}

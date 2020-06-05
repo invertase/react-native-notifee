@@ -280,11 +280,23 @@ export default function validateAndroidNotification(
    * largeIcon
    */
   if (checkForProperty(android, 'largeIcon')) {
-    if (!isString(android.largeIcon) || !android.largeIcon) {
-      throw new Error("'notification.android.largeIcon' expected a string value.");
+    if (
+      (!isNumber(android.largeIcon) &&
+        !isString(android.largeIcon) &&
+        !isObject(android.largeIcon)) ||
+      (isString(android.largeIcon) && !android.largeIcon.length)
+    ) {
+      throw new Error(
+        "'notification.android.largeIcon' expected a React Native ImageResource value or a valid string URL.",
+      );
     }
 
-    out.largeIcon = android.largeIcon;
+    if (isNumber(android.largeIcon) || isObject(android.largeIcon)) {
+      const image = resolveAssetSource(android.largeIcon);
+      out.largeIcon = image.uri;
+    } else {
+      out.largeIcon = android.largeIcon;
+    }
   }
 
   /**
@@ -597,7 +609,7 @@ export default function validateAndroidNotification(
 
     if (!isValidTimestamp(android.timestamp)) {
       throw new Error(
-        "'notification.android.timestamp' invalid millisecond timestamp, date must be in the future.",
+        "'notification.android.timestamp' invalid millisecond timestamp, date must be a positive number",
       );
     }
 
