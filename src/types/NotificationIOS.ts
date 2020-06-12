@@ -392,22 +392,19 @@ export interface IOSInput {
   placeholderText?: string;
 }
 
-/**
- * TODO docs
- */
-export interface IOSNotificationAttachment {
-  identifier: string;
-  url: string;
-  // TODO move options inline here
-  options?: IOSAttachmentOptions;
+export interface IOSAttachmentThumbnailClippingRect {
+  geoPoint: object;
+  size: object;
 }
 
 /**
  * TODO docs
  */
-export interface IOSAttachmentOptions {
-  typeHint: string;
+export interface IOSNotificationAttachment {
+  id: string;
+  url: string;
+  typeHint?: string;
   thumbnailHidden?: boolean;
-  thumbnailClippingRect?: object;
-  thumbnailTime: number;
+  thumbnailClippingRect?: IOSAttachmentThumbnailClippingRect;
+  thumbnailTime?: number;
 }
