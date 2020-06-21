@@ -2,7 +2,11 @@
  * Copyright (c) 2016-present Invertase Limited
  */
 
-import { NotificationIOS, IOSForegroundPresentationOptions } from '../types/NotificationIOS';
+import {
+  NotificationIOS,
+  IOSForegroundPresentationOptions,
+  IOSNotificationAttachment,
+} from '../types/NotificationIOS';
 import {
   objectHasProperty,
   isBoolean,
@@ -25,24 +29,28 @@ export default function validateIOSNotification(ios?: NotificationIOS): Notifica
     return out;
   }
 
+  /**
+   * attachments
+   */
   if (objectHasProperty(ios, 'attachments')) {
     if (!isArray(ios.attachments)) {
-      throw new Error("'notification.android.attachments' expected an array value.");
+      throw new Error("'notification.ios.attachments' expected an array value.");
     }
 
-    const attachments = [];
+    const attachments: IOSNotificationAttachment[] = [];
+
     for (let i = 0; i < ios.attachments.length; i++) {
       try {
-        for (let i = 0; i < ios.attachments.length; i++) {
-          attachments.push(validateIOSAttachment(ios.attachments[i]));
-        }
+        attachments.push(validateIOSAttachment(ios.attachments[i]));
       } catch (e) {
-        // todo error
+        throw new Error(
+          `'notification.ios.attachments' invalid IOSNotificationAttachment. ${e.message}.`,
+        );
       }
     }
 
     if (attachments.length) {
-      out.attachments = ios.attachments;
+      out.attachments = attachments;
     }
   }
 
