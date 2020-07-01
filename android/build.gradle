@@ -65,7 +65,10 @@ dependencies {
   } else {
     implementation fileTree(include: ['notifee_core_release.aar'], dir: 'libs')
   }
-  implementation(platform("com.squareup.okhttp3:okhttp-bom:4.4.1"))
+
+  // OkHTTP may be updated to most recent version if minSdkVersion >= 20
+  //noinspection GradleDependency NewerVersionAvailable
+  implementation 'com.squareup.okhttp3:okhttp:3.12.12'
   implementation 'androidx.concurrent:concurrent-futures:1.0.0'
   implementation 'com.google.android.gms:play-services-tasks:17.1.0'
   implementation 'androidx.work:work-runtime:2.3.4'
