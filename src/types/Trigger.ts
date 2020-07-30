@@ -24,13 +24,13 @@ export interface TimeTrigger {
    *
    * For example, if set to 30, the notificaiton will be displayed every 30 minutes.
    *
-   * Must be at least 15 minutes.
+   * Must be set to a minimum of 15 minutes.
    *
    */
   repeatInterval?: number;
 
   /**
-   * The time unit that the `repeatInterval` is measured in.
+   * The unit of time that the `repeatInterval` is measured in.
    *
    * For example, if set to `TimeUnit.DAYS` and repeat interval is set to 3, the notificaiton will repeat every 3 days.
    *
@@ -40,7 +40,7 @@ export interface TimeTrigger {
 }
 
 /**
- * An interface representing the units of time which can be used with `TimeTrigger.repeatIntervalTimeUnit`.
+ * An interface representing the different units of time which can be used with `TimeTrigger.repeatIntervalTimeUnit`.
  *
  * View the [Triggers](/react-native/docs/triggers) documentation to learn more.
  *

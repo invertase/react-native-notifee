@@ -174,10 +174,9 @@ export interface Module {
   displayNotification(notification: Notification): Promise<string>;
 
   /**
-   * API used to schedule or update a notification on the users device.
+   * API used to schedule a notification on the users device.
    *
-   * This API is used to schedule a notification on the users device. All
-   * channels/categories should be created before triggering this method during the apps lifecycle.
+   * All channels/categories should be created before triggering this method during the apps lifecycle.
    *
    * View the [Scheduling a Notification](/react-native/docs/scheduling-a-notification)
    * documentation for more information.

@@ -210,12 +210,6 @@ export default class NotifeeApiModule extends NotifeeNativeModule implements Mod
       throw new Error(`notifee.displayNotification(*) ${e.message}`);
     }
 
-    if (isAndroid) {
-      return this.native.displayNotification(options).then((): string => {
-        return options.id as string;
-      });
-    }
-
     return this.native.displayNotification(options).then((): string => {
       return options.id as string;
     });
