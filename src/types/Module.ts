@@ -3,6 +3,7 @@
  */
 
 import { Event, ForegroundServiceTask, InitialNotification, Notification } from './Notification';
+import { Trigger } from './Trigger';
 import {
   AndroidChannel,
   AndroidChannelGroup,
@@ -26,6 +27,31 @@ export interface Module {
    * notifications.
    */
   cancelAllNotifications(): Promise<void>;
+
+  /**
+   * API used to cancel all delivered notifications.
+   *
+   * The `cancelDeliveredNotifications` API removes any displayed notifications from the users device.
+   *
+   * This method does not cancel Android [Foreground Service](/react-native/docs/android/foreground-service)
+   * notifications.
+   *
+   * Currently only supported on Android.
+   *
+   * @platform android
+   */
+  cancelDeliveredNotifications(): Promise<void>;
+
+  /**
+   * API used to cancel all scheduled notifications.
+   *
+   * The `cancelScheduledNotifications` API removes  any pending notification triggers.
+   *
+   * Currently only supported on Android.
+   *
+   * @platform android
+   */
+  cancelScheduledNotifications(): Promise<void>;
 
   /**
    * API used to cancel a single notification.
@@ -144,10 +170,28 @@ export interface Module {
    *
    * @param notification The [`Notification`](/react-native/reference/notification) interfaced used
    * to create a notification for both Android & iOS.
-   * @param trigger TODO(salakar) Trigger types
    */
-  // TODO(salakar) Trigger types
-  displayNotification(notification: Notification, trigger?: any): Promise<string>;
+  displayNotification(notification: Notification): Promise<string>;
+
+  /**
+   * API used to schedule or update a notification on the users device.
+   *
+   * This API is used to schedule a notification on the users device. All
+   * channels/categories should be created before triggering this method during the apps lifecycle.
+   *
+   * View the [Scheduling a Notification](/react-native/docs/scheduling-a-notification)
+   * documentation for more information.
+   *
+   * @param notification The [`Notification`](/react-native/reference/notification) interfaced used
+   * to create a notification.
+   *
+   * @param trigger Trigger types
+   *
+   * Currently only supported on Android.
+   *
+   * @platform android
+   */
+  scheduleNotification(notification: Notification, trigger: Trigger): Promise<string>;
 
   /**
    * API used to return a channel on supported Android devices.

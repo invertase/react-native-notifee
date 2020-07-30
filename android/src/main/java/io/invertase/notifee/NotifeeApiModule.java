@@ -19,6 +19,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class NotifeeApiModule extends ReactContextBaseJavaModule {
+  private static final int NOTIFICATION_TYPE_DELIVERED = 1;
+  private static final int NOTIFICATION_TYPE_SCHEDULED = 2;
+  private static final int NOTIFICATION_TYPE_ALL = 0;
   public NotifeeApiModule(@NonNull ReactApplicationContext reactContext) {
     super(reactContext);
   }
@@ -42,8 +45,31 @@ public class NotifeeApiModule extends ReactContextBaseJavaModule {
   @ReactMethod
   public void cancelAllNotifications(Promise promise) {
     Notifee.getInstance()
-        .cancelAllNotifications((e, aVoid) -> NotifeeReactUtils.promiseResolver(promise, e));
+        .cancelAllNotifications(
+          NOTIFICATION_TYPE_ALL, (e, aVoid) -> NotifeeReactUtils.promiseResolver(promise, e));
   }
+
+  @ReactMethod
+  public void cancelDeliveredNotifications(Promise promise) {
+    Notifee.getInstance()
+        .cancelAllNotifications(
+          NOTIFICATION_TYPE_DELIVERED, (e, aVoid) -> NotifeeReactUtils.promiseResolver(promise, e));
+  }
+
+  @ReactMethod
+  public void cancelScheduledNotifications(Promise promise) {
+    Notifee.getInstance()
+        .cancelAllNotifications(
+          NOTIFICATION_TYPE_SCHEDULED, (e, aVoid) -> NotifeeReactUtils.promiseResolver(promise, e));
+  }
+
+  // TODO getScheduledNotifications
+  //  @ReactMethod
+  //  public void getScheduledNotifications(Promise promise) {
+  //     Notifee.getInstance()
+  //         .getScheduledNotifications(
+  //            (e, aBundleList) -> NotifeeReactUtils.promiseResolver(promise, e, aBundleList));
+  //    }
 
   @ReactMethod
   public void createChannel(ReadableMap channelMap, Promise promise) {
@@ -98,10 +124,18 @@ public class NotifeeApiModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void displayNotification(
-      ReadableMap notificationMap, ReadableMap triggerMap, Promise promise) {
+  public void displayNotification(ReadableMap notificationMap, Promise promise) {
     Notifee.getInstance()
         .displayNotification(
+            Arguments.toBundle(notificationMap),
+            (e, aVoid) -> NotifeeReactUtils.promiseResolver(promise, e));
+  }
+
+  @ReactMethod
+  public void scheduleNotification(
+      ReadableMap notificationMap, ReadableMap triggerMap, Promise promise) {
+    Notifee.getInstance()
+        .scheduleNotification(
             Arguments.toBundle(notificationMap),
             Arguments.toBundle(triggerMap),
             (e, aVoid) -> NotifeeReactUtils.promiseResolver(promise, e));

@@ -250,6 +250,11 @@ export enum EventType {
    * @platform android API Level >= 28
    */
   CHANNEL_GROUP_BLOCKED = 6,
+
+  /**
+   * Event type is sent when the user schedules a notification in the application.
+   */
+  SCHEDULED = 7,
 }
 
 /**
@@ -267,6 +272,7 @@ export interface EventDetail {
    *  - [`EventType.PRESS`](/react-native/reference/eventtype#press)
    *  - [`EventType.ACTION_PRESS`](/react-native/reference/eventtype#action_press)
    *  - [`EventType.DELIVERED`](/react-native/reference/eventtype#delivered)
+   *  - [`EventType.SCHEDULED`](/react-native/reference/eventtype#scheduled)
    */
   notification?: Notification;
 
