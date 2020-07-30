@@ -22,6 +22,7 @@ public class NotifeeApiModule extends ReactContextBaseJavaModule {
   private static final int NOTIFICATION_TYPE_DELIVERED = 1;
   private static final int NOTIFICATION_TYPE_SCHEDULED = 2;
   private static final int NOTIFICATION_TYPE_ALL = 0;
+
   public NotifeeApiModule(@NonNull ReactApplicationContext reactContext) {
     super(reactContext);
   }
@@ -46,21 +47,23 @@ public class NotifeeApiModule extends ReactContextBaseJavaModule {
   public void cancelAllNotifications(Promise promise) {
     Notifee.getInstance()
         .cancelAllNotifications(
-          NOTIFICATION_TYPE_ALL, (e, aVoid) -> NotifeeReactUtils.promiseResolver(promise, e));
+            NOTIFICATION_TYPE_ALL, (e, aVoid) -> NotifeeReactUtils.promiseResolver(promise, e));
   }
 
   @ReactMethod
   public void cancelDeliveredNotifications(Promise promise) {
     Notifee.getInstance()
         .cancelAllNotifications(
-          NOTIFICATION_TYPE_DELIVERED, (e, aVoid) -> NotifeeReactUtils.promiseResolver(promise, e));
+            NOTIFICATION_TYPE_DELIVERED,
+            (e, aVoid) -> NotifeeReactUtils.promiseResolver(promise, e));
   }
 
   @ReactMethod
   public void cancelScheduledNotifications(Promise promise) {
     Notifee.getInstance()
         .cancelAllNotifications(
-          NOTIFICATION_TYPE_SCHEDULED, (e, aVoid) -> NotifeeReactUtils.promiseResolver(promise, e));
+            NOTIFICATION_TYPE_SCHEDULED,
+            (e, aVoid) -> NotifeeReactUtils.promiseResolver(promise, e));
   }
 
   // TODO getScheduledNotifications
