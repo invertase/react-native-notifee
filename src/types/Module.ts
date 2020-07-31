@@ -51,7 +51,7 @@ export interface Module {
    *
    * @platform android
    */
-  cancelScheduledNotifications(): Promise<void>;
+  cancelNotificationTriggers(): Promise<void>;
 
   /**
    * API used to cancel a single notification.
@@ -174,23 +174,24 @@ export interface Module {
   displayNotification(notification: Notification): Promise<string>;
 
   /**
-   * API used to schedule a notification on the users device.
+   * API used to create a notification trigger.
    *
-   * All channels/categories should be created before triggering this method during the apps lifecycle.
+   * All channels/categories should be created before calling this method during the apps lifecycle.
    *
-   * View the [Scheduling a Notification](/react-native/docs/scheduling-a-notification)
+   * View the [Creating a Notification Trigger](/react-native/docs/creating-a-notification-trigger)
    * documentation for more information.
    *
    * @param notification The [`Notification`](/react-native/reference/notification) interfaced used
    * to create a notification.
    *
-   * @param trigger Trigger types
+   * @param trigger The [`Trigger`](/react-native/reference/trigger) interfaced used
+   * to create a trigger.
    *
    * Currently only supported on Android.
    *
    * @platform android
    */
-  scheduleNotification(notification: Notification, trigger: Trigger): Promise<string>;
+  createNotificationTrigger(notification: Notification, trigger: Trigger): Promise<string>;
 
   /**
    * API used to return a channel on supported Android devices.
