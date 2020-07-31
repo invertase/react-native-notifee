@@ -14,9 +14,9 @@ function isMinimumInterval(interval: number, timeUnit: any): boolean {
     case TimeUnit.MINUTES:
       return interval >= MINIMUM_INTERVAL;
     case TimeUnit.HOURS:
-      return interval * 60 >= MINIMUM_INTERVAL;
+      return interval >= 1;
     case TimeUnit.DAYS:
-      return interval * 24 * 60 >= MINIMUM_INTERVAL;
+      return interval >= 1;
   }
   return true;
 }
@@ -69,7 +69,7 @@ function validateTimeTrigger(trigger: TimeTrigger): TimeTrigger {
     }
 
     if (!isMinimumInterval(trigger.repeatInterval, out.repeatIntervalTimeUnit)) {
-      throw new Error("'trigger.repeatInterval' expected to be greater than 15 minutes.");
+      throw new Error("'trigger.repeatInterval' expected to be at least 15 minutes.");
     }
 
     out.repeatInterval = trigger.repeatInterval;
