@@ -57,6 +57,10 @@ function validateTimeTrigger(trigger: TimeTrigger): TimeTrigger {
       throw new Error("'trigger.repeatInterval' must be a number value.");
     }
 
+    if (!Number.isInteger(trigger.repeatInterval)) {
+      throw new Error("'trigger.repeatInterval' must be a integer value.");
+    }
+
     if (objectHasProperty(trigger, 'repeatIntervalTimeUnit')) {
       if (!isValidEnum(trigger.repeatIntervalTimeUnit, TimeUnit)) {
         throw new Error("'trigger.repeatIntervalTimeUnit' expected a TimeUnit value.");
