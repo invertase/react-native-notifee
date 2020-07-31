@@ -55,13 +55,12 @@ if (isAndroid) {
 }
 
 export default class NotifeeApiModule extends NotifeeNativeModule implements Module {
-  // TODO: implement getScheduledNotifications
-  // public getScheduledNotifications(): Promise<any[]> {
-  //   if (isIOS || this.native.ANDROID_API_LEVEL < 26) {
+  // TODO: implement getNotificationTriggers
+  // public getNotificationTriggers(): Promise<any[]> {
+  //   if (isIOS) {
   //     return Promise.resolve([]);
   //   }
-  //   console.log('attampting to go here');
-  //   return this.native.getScheduledNotifications();
+  //   return this.native.getNotificationTriggers();
   // }
 
   public cancelDeliveredNotifications(): Promise<void> {
@@ -71,11 +70,11 @@ export default class NotifeeApiModule extends NotifeeNativeModule implements Mod
     return this.native.cancelDeliveredNotifications();
   }
 
-  public cancelScheduledNotifications(): Promise<void> {
+  public cancelNotificationTriggers(): Promise<void> {
     if (isIOS) {
       return Promise.resolve();
     }
-    return this.native.cancelScheduledNotifications();
+    return this.native.cancelNotificationTriggers();
   }
 
   public cancelAllNotifications(): Promise<void> {
@@ -215,7 +214,7 @@ export default class NotifeeApiModule extends NotifeeNativeModule implements Mod
     });
   }
 
-  public scheduleNotification(notification: Notification, trigger: Trigger): Promise<string> {
+  public createNotificationTrigger(notification: Notification, trigger: Trigger): Promise<string> {
     let options: Notification;
     let triggerOptions: Trigger;
 
@@ -226,16 +225,16 @@ export default class NotifeeApiModule extends NotifeeNativeModule implements Mod
     try {
       options = validateNotification(notification);
     } catch (e) {
-      throw new Error(`notifee.scheduleNotification(*) ${e.message}`);
+      throw new Error(`notifee.createNotificationTrigger(*) ${e.message}`);
     }
 
     try {
       triggerOptions = validateTrigger(trigger);
     } catch (e) {
-      throw new Error(`notifee.scheduleNotification(*) ${e.message}`);
+      throw new Error(`notifee.createNotificationTrigger(*) ${e.message}`);
     }
 
-    return this.native.scheduleNotification(options, triggerOptions).then((): string => {
+    return this.native.createNotificationTrigger(options, triggerOptions).then((): string => {
       return options.id as string;
     });
   }

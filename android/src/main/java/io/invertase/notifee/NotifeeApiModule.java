@@ -20,7 +20,7 @@ import java.util.Map;
 
 public class NotifeeApiModule extends ReactContextBaseJavaModule {
   private static final int NOTIFICATION_TYPE_DELIVERED = 1;
-  private static final int NOTIFICATION_TYPE_SCHEDULED = 2;
+  private static final int NOTIFICATION_TYPE_TRIGGER = 2;
   private static final int NOTIFICATION_TYPE_ALL = 0;
 
   public NotifeeApiModule(@NonNull ReactApplicationContext reactContext) {
@@ -59,18 +59,17 @@ public class NotifeeApiModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void cancelScheduledNotifications(Promise promise) {
+  public void cancelNotificationTriggers(Promise promise) {
     Notifee.getInstance()
         .cancelAllNotifications(
-            NOTIFICATION_TYPE_SCHEDULED,
-            (e, aVoid) -> NotifeeReactUtils.promiseResolver(promise, e));
+            NOTIFICATION_TYPE_TRIGGER, (e, aVoid) -> NotifeeReactUtils.promiseResolver(promise, e));
   }
 
-  // TODO getScheduledNotifications
+  // TODO getNotificationTriggers
   //  @ReactMethod
-  //  public void getScheduledNotifications(Promise promise) {
+  //  public void getNotificationTriggers(Promise promise) {
   //     Notifee.getInstance()
-  //         .getScheduledNotifications(
+  //         .getNotificationTriggers(
   //            (e, aBundleList) -> NotifeeReactUtils.promiseResolver(promise, e, aBundleList));
   //    }
 
@@ -135,10 +134,10 @@ public class NotifeeApiModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void scheduleNotification(
+  public void createNotificationTrigger(
       ReadableMap notificationMap, ReadableMap triggerMap, Promise promise) {
     Notifee.getInstance()
-        .scheduleNotification(
+        .createNotificationTrigger(
             Arguments.toBundle(notificationMap),
             Arguments.toBundle(triggerMap),
             (e, aVoid) -> NotifeeReactUtils.promiseResolver(promise, e));

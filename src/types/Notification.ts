@@ -252,9 +252,9 @@ export enum EventType {
   CHANNEL_GROUP_BLOCKED = 6,
 
   /**
-   * Event type is sent when the user schedules a notification in the application.
+   * Event type is sent when a notification trigger is created.
    */
-  SCHEDULED = 7,
+  TRIGGER_CREATED = 7,
 }
 
 /**
