@@ -13,6 +13,10 @@ function isMinimumInterval(interval: number, timeUnit: any): boolean {
       return interval / 60 >= MINIMUM_INTERVAL;
     case TimeUnit.MINUTES:
       return interval >= MINIMUM_INTERVAL;
+    case TimeUnit.HOURS:
+      return interval * 60 >= MINIMUM_INTERVAL;
+    case TimeUnit.DAYS:
+      return interval * 24 * 60 >= MINIMUM_INTERVAL;
   }
   return true;
 }

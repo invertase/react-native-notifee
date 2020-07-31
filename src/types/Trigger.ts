@@ -49,12 +49,10 @@ export interface TimeTrigger {
  * @platform android
  */
 export enum TimeUnit {
-  SECONDS = 0,
-  MINUTES = 1,
-  MONTHS = 2,
-  DAYS = 3,
-  WEEKS = 4,
-  YEARS = 5,
+  SECONDS = 'SECONDS',
+  MINUTES = 'MINUTES',
+  HOURS = 'HOURS',
+  DAYS = 'DAYS',
 }
 
 /**
