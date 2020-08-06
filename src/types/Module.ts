@@ -186,6 +186,17 @@ export interface Module {
   createTriggerNotification(notification: Notification, trigger: Trigger): Promise<string>;
 
   /**
+   * API used to return the ids of trigger notifications that are pending.
+   *
+   * View the [Triggers](/react-native/docs/triggers) documentation for more information.
+   *
+   * Currently only supported on Android.
+   *
+   * @platform android
+   */
+  getTriggerNotificationIds(): Promise<string[]>;
+
+  /**
    * API used to return a channel on supported Android devices.
    *
    * This API is used to return a `NativeAndroidChannel`. Returns `null` if no channel could be matched to

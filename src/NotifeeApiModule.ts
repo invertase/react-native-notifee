@@ -55,13 +55,12 @@ if (isAndroid) {
 }
 
 export default class NotifeeApiModule extends NotifeeNativeModule implements Module {
-  // TODO: implement getTriggerNotifications
-  // public getTriggerNotifications(): Promise<any[]> {
-  //   if (isIOS) {
-  //     return Promise.resolve([]);
-  //   }
-  //   return this.native.getTriggerNotifications();
-  // }
+  public getTriggerNotificationIds(): Promise<string[]> {
+    if (isIOS) {
+      return Promise.resolve([]);
+    }
+    return this.native.getTriggerNotificationIds();
+  }
 
   public cancelAllNotifications(): Promise<void> {
     return this.native.cancelAllNotifications();
