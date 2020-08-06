@@ -65,13 +65,13 @@ public class NotifeeApiModule extends ReactContextBaseJavaModule {
             NOTIFICATION_TYPE_TRIGGER, (e, aVoid) -> NotifeeReactUtils.promiseResolver(promise, e));
   }
 
-  // TODO getNotificationTriggers
-  //  @ReactMethod
-  //  public void getNotificationTriggers(Promise promise) {
-  //     Notifee.getInstance()
-  //         .getNotificationTriggers(
-  //            (e, aBundleList) -> NotifeeReactUtils.promiseResolver(promise, e, aBundleList));
-  //    }
+  @ReactMethod
+  public void getTriggerNotificationIds(Promise promise) {
+    Notifee.getInstance()
+        .getTriggerNotificationIds(
+            (e, aStringList) ->
+                NotifeeReactUtils.promiseStringListResolver(promise, e, aStringList));
+  }
 
   @ReactMethod
   public void createChannel(ReadableMap channelMap, Promise promise) {
