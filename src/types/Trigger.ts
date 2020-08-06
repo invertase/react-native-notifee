@@ -22,7 +22,7 @@ export interface TimeTrigger {
    *
    * If not present, the notification will be displayed once.
    *
-   * For example, if set to 30, the notificaiton will be displayed every 30 minutes.
+   * For example, if set to 30, the notification will be displayed every 30 minutes.
    *
    * Must be set to a minimum of 15 minutes.
    *
@@ -32,7 +32,7 @@ export interface TimeTrigger {
   /**
    * The unit of time that the `repeatInterval` is measured in.
    *
-   * For example, if set to `TimeUnit.DAYS` and repeat interval is set to 3, the notificaiton will repeat every 3 days.
+   * For example, if set to `TimeUnit.DAYS` and repeat interval is set to 3, the notification will repeat every 3 days.
    *
    * Defaults to `TimeUnit.MINUTES`
    */

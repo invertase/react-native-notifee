@@ -55,30 +55,30 @@ if (isAndroid) {
 }
 
 export default class NotifeeApiModule extends NotifeeNativeModule implements Module {
-  // TODO: implement getNotificationTriggers
-  // public getNotificationTriggers(): Promise<any[]> {
+  // TODO: implement getTriggerNotifications
+  // public getTriggerNotifications(): Promise<any[]> {
   //   if (isIOS) {
   //     return Promise.resolve([]);
   //   }
-  //   return this.native.getNotificationTriggers();
+  //   return this.native.getTriggerNotifications();
   // }
-
-  public cancelDeliveredNotifications(): Promise<void> {
-    if (isIOS) {
-      return Promise.resolve();
-    }
-    return this.native.cancelDeliveredNotifications();
-  }
-
-  public cancelNotificationTriggers(): Promise<void> {
-    if (isIOS) {
-      return Promise.resolve();
-    }
-    return this.native.cancelNotificationTriggers();
-  }
 
   public cancelAllNotifications(): Promise<void> {
     return this.native.cancelAllNotifications();
+  }
+
+  public cancelDisplayedNotifications(): Promise<void> {
+    if (isIOS) {
+      return Promise.resolve();
+    }
+    return this.native.cancelDisplayedNotifications();
+  }
+
+  public cancelTriggerNotifications(): Promise<void> {
+    if (isIOS) {
+      return Promise.resolve();
+    }
+    return this.native.cancelTriggerNotifications();
   }
 
   public cancelNotification(notificationId: string): Promise<void> {
@@ -214,7 +214,7 @@ export default class NotifeeApiModule extends NotifeeNativeModule implements Mod
     });
   }
 
-  public createNotificationTrigger(notification: Notification, trigger: Trigger): Promise<string> {
+  public createTriggerNotification(notification: Notification, trigger: Trigger): Promise<string> {
     let options: Notification;
     let triggerOptions: Trigger;
 
@@ -225,16 +225,16 @@ export default class NotifeeApiModule extends NotifeeNativeModule implements Mod
     try {
       options = validateNotification(notification);
     } catch (e) {
-      throw new Error(`notifee.createNotificationTrigger(*) ${e.message}`);
+      throw new Error(`notifee.createTriggerNotification(*) ${e.message}`);
     }
 
     try {
       triggerOptions = validateTrigger(trigger);
     } catch (e) {
-      throw new Error(`notifee.createNotificationTrigger(*) ${e.message}`);
+      throw new Error(`notifee.createTriggerNotification(*) ${e.message}`);
     }
 
-    return this.native.createNotificationTrigger(options, triggerOptions).then((): string => {
+    return this.native.createTriggerNotification(options, triggerOptions).then((): string => {
       return options.id as string;
     });
   }

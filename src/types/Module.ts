@@ -21,7 +21,7 @@ export interface Module {
    * API used to cancel all notifications.
    *
    * The `cancelAllNotifications` API removes any displayed notifications from the users device and
-   * any pending notification triggers.
+   * any pending trigger notifications.
    *
    * This method does not cancel Android [Foreground Service](/react-native/docs/android/foreground-service)
    * notifications.
@@ -29,29 +29,22 @@ export interface Module {
   cancelAllNotifications(): Promise<void>;
 
   /**
-   * API used to cancel all delivered notifications.
-   *
-   * The `cancelDeliveredNotifications` API removes any displayed notifications from the users device.
-   *
-   * This method does not cancel Android [Foreground Service](/react-native/docs/android/foreground-service)
-   * notifications.
+   * API used to cancel any displayed notifications.
    *
    * Currently only supported on Android.
    *
    * @platform android
    */
-  cancelDeliveredNotifications(): Promise<void>;
+  cancelDisplayedNotifications(): Promise<void>;
 
   /**
-   * API used to cancel all scheduled notifications.
-   *
-   * The `cancelScheduledNotifications` API removes  any pending notification triggers.
+   * API used to cancel any trigger notifications.
    *
    * Currently only supported on Android.
    *
    * @platform android
    */
-  cancelNotificationTriggers(): Promise<void>;
+  cancelTriggerNotifications(): Promise<void>;
 
   /**
    * API used to cancel a single notification.
@@ -174,12 +167,11 @@ export interface Module {
   displayNotification(notification: Notification): Promise<string>;
 
   /**
-   * API used to create a notification trigger.
+   * API used to create a trigger notification.
    *
    * All channels/categories should be created before calling this method during the apps lifecycle.
    *
-   * View the [Creating a Notification Trigger](/react-native/docs/creating-a-notification-trigger)
-   * documentation for more information.
+   * View the [Triggers](/react-native/docs/triggers) documentation for more information.
    *
    * @param notification The [`Notification`](/react-native/reference/notification) interfaced used
    * to create a notification.
@@ -191,7 +183,7 @@ export interface Module {
    *
    * @platform android
    */
-  createNotificationTrigger(notification: Notification, trigger: Trigger): Promise<string>;
+  createTriggerNotification(notification: Notification, trigger: Trigger): Promise<string>;
 
   /**
    * API used to return a channel on supported Android devices.
