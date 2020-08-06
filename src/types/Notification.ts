@@ -254,7 +254,7 @@ export enum EventType {
   /**
    * Event type is sent when a notification trigger is created.
    */
-  TRIGGER_CREATED = 7,
+  TRIGGER_NOTIFICATION_CREATED = 7,
 }
 
 /**
