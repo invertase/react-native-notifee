@@ -15,9 +15,18 @@ Pod::Spec.new do |s|
   s.social_media_url    = 'http://twitter.com/notifee_app'
 
   s.cocoapods_version        = '>= 1.10.0'
-  s.ios.deployment_target    = '10.0'
-  s.source_files             = 'ios/RNNotifee/*.{h,m}'
-  s.dependency 'React-Core'
+  s.ios.deployment_target   = '10.0'
+  s.default_subspec = "App"
+
+  s.subspec 'App' do |ss|
+    ss.source_files = 'ios/RNNotifee/*.{h,m}'
+    ss.dependency 'React-Core'
+  end
+
+  s.subspec 'NotifeeExtensionHelper' do |ss|
+    ss.source_files = ['ios/RNNotifee/NotifeeExtensionHelper.h', 'ios/RNNotifee/NotifeeExtensionHelper.m'];
+    ss.public_header_files = ['ios/RNNotifee/NotifeeExtensionHelper.h']
+  end
 
   if defined?($NotifeeCoreFromSources) && $NotifeeCoreFromSources == true
     # internal dev flag used by Notifee devs, ignore
