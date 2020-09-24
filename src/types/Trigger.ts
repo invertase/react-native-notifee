@@ -18,11 +18,11 @@ export interface TimestampTrigger {
    * If unset, the notification will only be displayed once.
    *
    * For example:
-   *  if set to `Frequency.HOURLY`, the notification will repeat every hour from the timestamp specified.
-   *  if set to `Frequency.DAILY`, the notification will repeat every day from the timestamp specified.
-   *  if set to `Frequency.WEEKLY`, the notification will repeat every week from the timestamp specified.
+   *  if set to `RepeatFrequency.HOURLY`, the notification will repeat every hour from the timestamp specified.
+   *  if set to `RepeatFrequency.DAILY`, the notification will repeat every day from the timestamp specified.
+   *  if set to `RepeatFrequency.WEEKLY`, the notification will repeat every week from the timestamp specified.
    */
-  repeatFrequency?: RepeatFrequency | RepeatFrequency.DAILY;
+  repeatFrequency?: RepeatFrequency;
 }
 
 /**
