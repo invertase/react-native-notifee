@@ -11,6 +11,7 @@ import {
   NativeAndroidChannelGroup,
 } from './types/NotificationAndroid';
 import { InitialNotification, Notification, Event } from './types/Notification';
+import { PowerManagerInfo } from './types/PowerManagerInfo';
 import { Trigger } from './types/trigger';
 import NotifeeNativeModule from './NotifeeNativeModule';
 import {
@@ -514,4 +515,20 @@ export default class NotifeeApiModule extends NotifeeNativeModule implements Mod
     }
     return this.native.openBatteryOptimizationSettings();
   }
+
+   public getPowerManagerInfo(): Promise<PowerManagerInfo | null> {
+    if (isIOS) {
+      return Promise.resolve(null);
+    }
+
+    return this.native.getPowerManagerInfo();
+  }
+
+  public openPowerManagerSettings(): Promise<void> {
+    if (isIOS) {
+      return Promise.resolve();
+    }
+    return this.native.openPowerManagerSettings();
+  }
+
 }
