@@ -23,7 +23,7 @@ export interface PowerManagerInfo {
      * For example, Galaxy S8
      */
     model?: string;
- 
+
     /**
      * The Android version
      *
