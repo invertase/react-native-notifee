@@ -523,7 +523,7 @@ export default class NotifeeApiModule extends NotifeeNativeModule implements Mod
       // return a dummy response to allow the power manager
       // flow work the same on both iOS & Android
       return Promise.resolve({
-        manufacturer: 'Apple',
+        manufacturer: 'apple',
         activity: null
       } as PowerManagerInfo);
     }
