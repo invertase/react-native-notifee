@@ -37,7 +37,7 @@ export interface PowerManagerInfo {
      * Use this as an indicator of what steps the user may have to perform,
      * in-order to prevent your app from being killed.
      *
-     * If no activity can be found, value will be `null`.
+     * If no activity can be found, value will be null.
      */
-    activity?: string;
+    activity?: string | null;
 }

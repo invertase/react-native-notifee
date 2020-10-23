@@ -495,13 +495,14 @@ export interface Module {
    *
    * If activity is null, openPowerManagerSettings() will be noop.
    *
+   * On iOS, an instance of PowerManagerInfo will be returned with activity set to null.
+   *
    * View the [Background Restrictions](/react-native/docs/android/behaviour#background-restrictions) documentation for more information.
    *
    * ```js
    * import notifee from `@notifee/react-native`;
    *
    * PowerManagerInfo powerManagerInfo = await notifee.getPowerManagerInfo
-   * console.log(powerManagerInfo);
    *
    * if (powerManagerInfo.activity) {
    *  // 1. ask the user to adjust their Power Manager settings
@@ -514,7 +515,7 @@ export interface Module {
    *
    * @platform android
    */
-  getPowerManagerInfo(): Promise<PowerManagerInfo | null>;
+  getPowerManagerInfo(): Promise<PowerManagerInfo>;
 
   /**
    * API used to navigate to the appropriate Android System settings for the device.

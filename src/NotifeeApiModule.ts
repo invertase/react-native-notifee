@@ -516,9 +516,16 @@ export default class NotifeeApiModule extends NotifeeNativeModule implements Mod
     return this.native.openBatteryOptimizationSettings();
   }
 
-   public getPowerManagerInfo(): Promise<PowerManagerInfo | null> {
+   public getPowerManagerInfo(): Promise<PowerManagerInfo> {
+
     if (isIOS) {
-      return Promise.resolve(null);
+      // iOS doesn't support this, so instead we
+      // return a dummy response to allow the power manager
+      // flow work the same on both iOS & Android
+      return Promise.resolve({
+        manufacturer: 'Apple',
+        activity: null
+      } as PowerManagerInfo);
     }
 
     return this.native.getPowerManagerInfo();
