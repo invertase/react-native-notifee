@@ -38,9 +38,11 @@ import {
 import validateIOSCategory from './validators/validateIOSCategory';
 import validateIOSPermissions from './validators/validateIOSPermissions';
 
+let backgroundEventHandler: (event: Event) => Promise<void>;
+
 let isRunningForegroundServiceTask = false;
-let backgroundMessageHandler: (event: Event) => Promise<void>;
 let registeredForegroundServiceTask: (notification: Notification) => Promise<void>;
+
 if (isAndroid) {
   // Register foreground service
   AppRegistry.registerHeadlessTask(kReactNativeNotifeeForegroundServiceHeadlessTask, () => {
@@ -62,29 +64,29 @@ export default class NotifeeApiModule extends NotifeeNativeModule implements Mod
       // Register background handler
       AppRegistry.registerHeadlessTask(kReactNativeNotifeeNotificationEvent, () => {
         return (event: Event): Promise<void> => {
-          if (!backgroundMessageHandler) {
+          if (!backgroundEventHandler) {
             // eslint-disable-next-line no-console
             console.warn(
-              '[notifee] no background message handler has been set. Set a handler via the "onBackgroundEvent" method.',
+              '[notifee] no background event handler has been set. Set a handler via the "onBackgroundEvent" method.',
             );
             return Promise.resolve();
           }
-          return backgroundMessageHandler(event);
+          return backgroundEventHandler(event);
         };
       });
     } else if (isIOS) {
       this.emitter.addListener(
         kReactNativeNotifeeNotificationBackgroundEvent,
         (event: Event): Promise<void> => {
-          if (!backgroundMessageHandler) {
+          if (!backgroundEventHandler) {
             // eslint-disable-next-line no-console
             console.warn(
-              '[notifee] no background message handler has been set. Set a handler via the "onBackgroundEvent" method.',
+              '[notifee] no background event handler has been set. Set a handler via the "onBackgroundEvent" method.',
             );
             return Promise.resolve();
           }
 
-          return backgroundMessageHandler(event);
+          return backgroundEventHandler(event);
         },
       );
     }
@@ -325,7 +327,7 @@ export default class NotifeeApiModule extends NotifeeNativeModule implements Mod
       throw new Error("notifee.onBackgroundEvent(*) 'observer' expected a function.");
     }
 
-    backgroundMessageHandler = observer;
+    backgroundEventHandler = observer;
   }
 
   public onForegroundEvent(observer: (event: Event) => void): () => void {
