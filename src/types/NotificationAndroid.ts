@@ -316,7 +316,12 @@ export interface NotificationAndroid {
    * View the [Styles](/react-native/docs/android/styles) documentation to learn more
    * view usage examples.
    **/
-  style?: AndroidBigPictureStyle | AndroidBigTextStyle | AndroidInboxStyle | AndroidMessagingStyle;
+  style?:
+    | AndroidBigPictureStyle
+    | AndroidBigTextStyle
+    | AndroidInboxStyle
+    | AndroidMessagingStyle
+    | AndroidMediaStyle;
 
   /**
    * Text that summarizes this notification for accessibility services. As of the Android L release, this
@@ -601,6 +606,27 @@ export interface AndroidInboxStyle {
    * If set, overrides the main notification `summary` when the notification is expanded.
    */
   summary?: string;
+}
+
+/**
+ * The interface used when displaying a Media Style notification.
+ *
+ * <Vimeo id="android-style-media" caption="Android Media Style" />
+ *
+ * View the [Messaging](/react-native/docs/android/styles#media) documentation to learn more.
+ *
+ * @platform android
+ */
+export interface AndroidMediaStyle {
+  /**
+   * Constant enum value used to identify the style type.
+   */
+  type: AndroidStyle.MEDIA;
+
+  /**
+   * An array of Media Style action ids to display when the notification is collapsed.
+   */
+  compactActions?: AndroidMediaStyleAction[];
 }
 
 /**
@@ -1134,6 +1160,7 @@ export enum AndroidStyle {
   BIGTEXT = 1,
   INBOX = 2,
   MESSAGING = 3,
+  MEDIA = 4,
 }
 
 /**
@@ -1226,6 +1253,40 @@ export enum AndroidImportance {
    * in the application settings.
    */
   NONE = 0,
+}
+
+/**
+ * Enum used to define Media Style actions.
+ *
+ * View the [Media Style](/react-native/docs/android/style#media-style) documentation for more information.
+ *
+ * @platform android
+ */
+export enum AndroidMediaStyleAction {
+  /**
+   * Play
+   */
+  PLAY = 'play',
+
+  /**
+   * Pause
+   */
+  PAUSE = 'pause',
+
+  /**
+   * Stop
+   */
+  STOP = 'stop',
+
+  /**
+   * Next
+   */
+  NEXT = 'next',
+
+  /**
+   * Previous
+   */
+  PREVIOUS = 'previous',
 }
 
 /**

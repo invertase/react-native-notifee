@@ -10,12 +10,14 @@ import {
   AndroidBigPictureStyle,
   AndroidBigTextStyle,
   AndroidInboxStyle,
+  AndroidMediaStyle,
+  AndroidMediaStyleAction,
   AndroidMessagingStyle,
   AndroidMessagingStyleMessage,
   AndroidPerson,
   AndroidStyle,
 } from '../types/NotificationAndroid';
-import { objectHasProperty, isArray, isBoolean, isNumber, isObject, isString } from '../utils';
+import { objectHasProperty, isArray, isBoolean, isNumber, isObject, isString, isValidEnum } from '../utils';
 
 /**
  * Validates a BigPictureStyle
@@ -309,6 +311,44 @@ export function validateAndroidMessagingStyle(style: AndroidMessagingStyle): And
 
     out.group = style.group;
   }
+
+  return out;
+}
+
+export function validateAndroidMediaStyleCompactActions(
+  compactAction: AndroidMediaStyleAction,
+): AndroidMediaStyleAction {
+  if (!isValidEnum(compactAction, AndroidMediaStyleAction)) {
+    throw new Error("'compactAction' expected an AndroidMediaStyleAction value.");
+  }
+
+  return compactAction;
+}
+
+/**
+ * Validates a MediaStyle
+ */
+export function validateAndroidMediaStyle(style: AndroidMediaStyle): AndroidMediaStyle {
+  const out: AndroidMediaStyle = {
+    type: AndroidStyle.MEDIA,
+  };
+
+  if (isArray(style.compactActions)) {
+
+    const compactActions: AndroidMediaStyleAction[] = [];
+
+    for (let i = 0; i < style.compactActions.length; i++) {
+      try {
+        compactActions.push(validateAndroidMediaStyleCompactActions(style.compactActions[i]));
+      } catch (e) {
+        throw new Error(
+          `'notification.android.style' MediaStyle: invalid compactAction at index ${i}. ${e.message}`,
+        );
+      }
+    }
+  }
+
+  console.log('validateAndroidMediaStyle', out);
 
   return out;
 }
