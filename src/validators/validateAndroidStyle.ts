@@ -348,7 +348,5 @@ export function validateAndroidMediaStyle(style: AndroidMediaStyle): AndroidMedi
     }
   }
 
-  console.log('validateAndroidMediaStyle', out);
-
   return out;
 }
