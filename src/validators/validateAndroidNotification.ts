@@ -300,6 +300,10 @@ export default function validateAndroidNotification(
     } else {
       out.largeIcon = android.largeIcon;
     }
+
+    if (isBoolean(android.circularLargeIcon)) {
+      out.circularLargeIcon = android.circularLargeIcon;
+    }
   }
 
   /**
