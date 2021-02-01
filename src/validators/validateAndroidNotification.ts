@@ -65,6 +65,7 @@ export default function validateAndroidNotification(
     smallIcon: 'ic_launcher',
     showChronometer: false,
     visibility: AndroidVisibility.PRIVATE,
+    circularLargeIcon: false,
   };
 
   if (isUndefined(android)) {
