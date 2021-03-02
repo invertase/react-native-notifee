@@ -39,6 +39,21 @@ The APIs for Android allow for creating rich, styled and highly interactive noti
 | [Styles](https://notifee.app/react-native/docs/android/styles)                           | Style notifications to show richer content, such as expandable images/text, or message conversations.                             |
 | [Timers](https://notifee.app/react-native/docs/android/timers)                           | Display counting timers on your notification, useful for on-going tasks such as a phone call, or event time remaining.            |
 
+#### Import
+
+This library requires the import of the core library, because of that you need to add the following import to your root `build.gradle`:
+
+```
+allprojects {
+    repositories {
+        ....
+        flatDir {
+            dirs "$rootDir/../node_modules/@notifee/react-native/android/libs"
+        }
+    }
+}
+```
+
 ### iOS
 
 Below you'll find guides that cover the supported iOS features.

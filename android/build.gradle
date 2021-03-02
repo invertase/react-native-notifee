@@ -65,7 +65,7 @@ dependencies {
   if (findProject(':notifee_core')) {
     implementation findProject(':notifee_core')
   } else {
-    implementation fileTree(include: ['notifee_core_release.aar'], dir: 'libs')
+    compile(name: 'notifee_core_release', ext: 'aar')
   }
   implementation 'androidx.concurrent:concurrent-futures:1.0.0'
   implementation 'com.google.android.gms:play-services-tasks:17.1.0'
