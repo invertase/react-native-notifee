@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/NotifeeCore.h</key>
 		<data>
-		IriPMUbF8yGl8NwezC6oVSU1JI8=
+		Bw5ygMCtWPTJENK7K+7ufpFC+O4=
 		</data>
 		<key>Info.plist</key>
 		<data>
@@ -23,11 +23,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			IriPMUbF8yGl8NwezC6oVSU1JI8=
+			Bw5ygMCtWPTJENK7K+7ufpFC+O4=
 			</data>
 			<key>hash2</key>
 			<data>
-			H4nTleBI43WtYeV33EmBdpiJp+I4ci2c+2RcBKEOzn8=
+			FGqqE208vli0ZHW09ph44+F6GkRNCDkTZRFrQSkfHvU=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

@@ -6,16 +6,16 @@
 //
 
 #import <Foundation/Foundation.h>
-
 //! Project version number for NotifeeCore.
 FOUNDATION_EXPORT double NotifeeCoreVersionNumber;
+#import <UserNotifications/UserNotifications.h>
 
 //! Project version string for NotifeeCore.
 FOUNDATION_EXPORT const unsigned char NotifeeCoreVersionString[];
 
-// Import all the public headers of your framework using statements like #import <NotifeeCore/PublicHeader.h>
-// #import <NotifeeCore/Example.h>
-// END public headers import
+// Import all the public headers of your framework using statements like #import
+// <NotifeeCore/PublicHeader.h> #import <NotifeeCore/Example.h> END public
+// headers import
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -45,29 +45,34 @@ typedef NS_ENUM(NSInteger, NotifeeCoreEventType) {
 
 @protocol NotifeeCoreDelegate <NSObject>
 @optional
-- (void) didReceiveNotifeeCoreEvent:(NSDictionary *_Nonnull)event;
+- (void)didReceiveNotifeeCoreEvent:(NSDictionary *_Nonnull)event;
 @end
 
 @interface NotifeeCore : NSObject
 
-+ (void)setCoreDelegate:(id <NotifeeCoreDelegate>)coreDelegate;
++ (void)setCoreDelegate:(id<NotifeeCoreDelegate>)coreDelegate;
 
-+ (void)cancelNotification:(NSString *)notificationId withNotificationType: (NSInteger)notificationType withBlock:(notifeeMethodVoidBlock)block;
++ (void)cancelNotification:(NSString *)notificationId
+      withNotificationType:(NSInteger)notificationType
+                 withBlock:(notifeeMethodVoidBlock)block;
 
-+ (void)cancelAllNotifications:(NSInteger)notificationType
-                     withBlock:(notifeeMethodVoidBlock)block;
++ (void)cancelAllNotifications:(NSInteger)notificationType withBlock:(notifeeMethodVoidBlock)block;
 
 + (void)displayNotification:(NSDictionary *)notification withBlock:(notifeeMethodVoidBlock)block;
 
-+ (void)createTriggerNotification:(NSDictionary *)notification withTrigger: (NSDictionary *)trigger withBlock:(notifeeMethodVoidBlock)block;
++ (void)createTriggerNotification:(NSDictionary *)notification
+                      withTrigger:(NSDictionary *)trigger
+                        withBlock:(notifeeMethodVoidBlock)block;
 
 + (void)getTriggerNotificationIds:(notifeeMethodNSArrayBlock)block;
 
-+ (void)requestPermission:(NSDictionary *)permissions withBlock:(notifeeMethodNSDictionaryBlock)block;
++ (void)requestPermission:(NSDictionary *)permissions
+                withBlock:(notifeeMethodNSDictionaryBlock)block;
 
 + (void)getNotificationCategories:(notifeeMethodNSArrayBlock)block;
 
-+ (void)setNotificationCategories:(NSArray<NSDictionary *> *)categories withBlock:(notifeeMethodVoidBlock)block;
++ (void)setNotificationCategories:(NSArray<NSDictionary *> *)categories
+                        withBlock:(notifeeMethodVoidBlock)block;
 
 + (void)getNotificationSettings:(notifeeMethodNSDictionaryBlock)block;
 
@@ -80,6 +85,14 @@ typedef NS_ENUM(NSInteger, NotifeeCoreEventType) {
 + (void)incrementBadgeCount:(NSInteger)incrementBy withBlock:(notifeeMethodVoidBlock)block;
 
 + (void)decrementBadgeCount:(NSInteger)decrementBy withBlock:(notifeeMethodVoidBlock)block;
+
++ (nullable instancetype)notifeeUIApplication;
+
++ (UNMutableNotificationContent *)buildNotificationContent:(NSDictionary *)notification
+                                               withTrigger:(NSDictionary *)trigger;
+
++ (void)populateNotificationContent:(UNMutableNotificationContent *)content
+                 withContentHandler:(void (^)(UNNotificationContent *_Nonnull))contentHandler;
 
 @end
 
