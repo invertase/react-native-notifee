@@ -16,7 +16,6 @@
  */
 
 #import "NotifeeExtensionHelper.h"
-#import <NotifeeCore/NotifeeCore.h>
 
 @implementation NotifeeExtensionHelper
 

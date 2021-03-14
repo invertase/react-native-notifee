@@ -21,19 +21,31 @@ Pod::Spec.new do |s|
   s.subspec 'App' do |ss|
     ss.source_files = 'ios/RNNotifee/*.{h,m}'
     ss.dependency 'React-Core'
+    ss.source_files = 'ios/RNNotifee/*.{h,m}'
+
+    # Add Notifeeore as an dependency
+    if defined?($NotifeeCoreFromSources) && $NotifeeCoreFromSources == true
+      # internal dev flag used by Notifee devs, ignore
+      Pod::UI.warn "RNNotifee: Using NotifeeCore from sources."
+      s.dependency 'NotifeeCore'
+    else
+      s.ios.vendored_frameworks = 'ios/NotifeeCore.xcframework'
+      s.preserve_paths = 'ios/NotifeeCore.xcframework'
+    end
   end
 
   s.subspec 'NotifeeExtensionHelper' do |ss|
-    ss.source_files = ['ios/RNNotifee/NotifeeExtensionHelper.h', 'ios/RNNotifee/NotifeeExtensionHelper.m'];
+    ss.source_files =  ['ios/RNNotifee/NotifeeExtensionHelper.h', 'ios/RNNotifee/NotifeeExtensionHelper.m']
     ss.public_header_files = ['ios/RNNotifee/NotifeeExtensionHelper.h']
-  end
 
-  if defined?($NotifeeCoreFromSources) && $NotifeeCoreFromSources == true
-    # internal dev flag used by Notifee devs, ignore
-    Pod::UI.warn "RNNotifee: Using NotifeeCore from sources."
-    s.dependency 'NotifeeCore'
-  else
-    s.ios.vendored_frameworks = 'ios/NotifeeCore.xcframework'
-    s.preserve_paths = 'ios/NotifeeCore.xcframework'
+    # Add Notifeeore as an dependency
+    if defined?($NotifeeCoreFromSources) && $NotifeeCoreFromSources == true
+      # internal dev flag used by Notifee devs, ignore
+      Pod::UI.warn "RNNotifee: Using NotifeeCore from sources."
+      ss.dependency 'NotifeeCore'
+    else
+      ss.ios.vendored_frameworks = 'ios/NotifeeCore.xcframework'
+      ss.preserve_paths = 'ios/NotifeeCore.xcframework'
+    end
   end
 end
