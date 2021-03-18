@@ -20,12 +20,15 @@ Pod::Spec.new do |s|
     
   if defined?($NotifeeCoreFromSources) && $NotifeeCoreFromSources == true
     # internal dev flag used by Notifee devs, ignore
-    Pod::UI.warn "RNNotifee: Using NotifeeCore from sources."
+    Pod::UI.warn "RNNotifeeCore: Using NotifeeCore from sources."
     s.dependency 'NotifeeCore'
   else
     s.ios.vendored_frameworks = 'ios/NotifeeCore.xcframework'
     s.preserve_paths = 'ios/NotifeeCore.xcframework'
   end
+
+  s.source_files =  ['ios/RNNotifee/NotifeeExtensionHelper.h', 'ios/RNNotifee/NotifeeExtensionHelper.m']
+  s.public_header_files = ['ios/RNNotifee/NotifeeExtensionHelper.h']
 
 end
 

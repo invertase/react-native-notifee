@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target   = '10.0'
 
   s.dependency 'React-Core'
-  s.source_files = 'ios/RNNotifee/*.{h,m}'
+  s.source_files =  ['ios/RNNotifee/NotifeeApiModule.h', 'ios/RNNotifee/NotifeeApiModule.m']
   
   if defined?($NotifeeCoreFromSources) && $NotifeeCoreFromSources == true
     # internal dev flag used by Notifee devs, ignore
@@ -27,7 +27,7 @@ Pod::Spec.new do |s|
     s.dependency 'NotifeeCore'
   elsif defined?($NotifeeExtension) && $NotifeeExtension == true
     # App uses Notification Service Extension
-    Pod::UI.warn "RNNotifeeCore: using Notification Service Extension."
+    Pod::UI.warn "RNNotifee: using Notification Service Extension."
     s.dependency 'RNNotifeeCore'
   else
     s.ios.vendored_frameworks = 'ios/NotifeeCore.xcframework'
