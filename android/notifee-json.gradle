@@ -193,7 +193,7 @@ def registerJsonTaskForProjectVariant(jsonFile, targetProject, targetVariant) {
 
   NotifeeJsonTask task = targetProject.tasks.findByName(variantTaskName);
 
-  if(!task) {
+  if (!task) {
     task = targetProject.tasks.create(variantTaskName, NotifeeJsonTask)
   }
 
