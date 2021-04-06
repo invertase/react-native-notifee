@@ -55,7 +55,8 @@ RCT_EXPORT_MODULE();
 - (void)startObserving {
   hasListeners = YES;
   for (NSDictionary *eventBody in pendingCoreEvents) {
-    [self sendNotifeeCoreEvent:eventBody];
+    BOOL *foreground = [UIApplication sharedApplication].applicationState == UIApplicationStateActive;
+    [self sendNotifeeCoreEvent:eventBody foreground: foreground];
   }
   [pendingCoreEvents removeAllObjects];
 }
@@ -70,26 +71,24 @@ RCT_EXPORT_MODULE();
 
 #pragma mark - Events
 
-- (void)didReceiveNotifeeCoreEvent:(NSDictionary *_Nonnull)event {
+- (void)didReceiveNotifeeCoreEvent:(NSDictionary *_Nonnull)event foreground: (BOOL)foreground; {
   if (hasListeners) {
-    [self sendNotifeeCoreEvent:event];
+    [self sendNotifeeCoreEvent:event foreground:foreground];
   } else {
     [pendingCoreEvents addObject:event];
   }
 }
 
-- (void)sendNotifeeCoreEvent:(NSDictionary *_Nonnull)eventBody {
+- (void)sendNotifeeCoreEvent:(NSDictionary *_Nonnull)eventBody foreground: (BOOL)foreground; {
   dispatch_after(
       dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        if (RCTRunningInAppExtension() ||
-            [UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
+        if (RCTRunningInAppExtension() || !foreground ) {
           [self sendEventWithName:kReactNativeNotifeeNotificationBackgroundEvent body:eventBody];
         } else {
           [self sendEventWithName:kReactNativeNotifeeNotificationEvent body:eventBody];
         }
       });
 }
-
 // TODO(helenaford): look into a custom format style for React Native Method signatures
 // clang-format off
 
