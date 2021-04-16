@@ -543,6 +543,22 @@ export interface Module {
    * @platform android
    */
   openPowerManagerSettings(): Promise<void>;
+
+  /**
+   * API used to hide the notification drawer, for example,
+   * when the user presses one of the quick actions on the notification, you may wish to hide the drawer.
+   *
+   * Please use this functionality carefully as it could potentially be quite intrusive to the user.
+   *
+   * ```js
+   * import notifee from `@notifee/react-native`;
+   *
+   * notifee.hideNotificationDrawer();
+   * ```
+   *
+   * @platform android
+   */
+  hideNotificationDrawer(): void;
 }
 
 /**

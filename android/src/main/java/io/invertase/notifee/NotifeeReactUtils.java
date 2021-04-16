@@ -6,6 +6,7 @@ package io.invertase.notifee;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -26,6 +27,7 @@ import com.facebook.react.jstasks.HeadlessJsTaskConfig;
 import com.facebook.react.jstasks.HeadlessJsTaskContext;
 import com.facebook.react.jstasks.HeadlessJsTaskEventListener;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import java.lang.reflect.Method;
 import java.util.List;
 
 class NotifeeReactUtils {
@@ -220,6 +222,22 @@ class NotifeeReactUtils {
     }
 
     return false;
+  }
+
+  static void hideNotificationDrawer() {
+    Context context = EventSubscriber.getContext();
+
+    try {
+      @SuppressLint("WrongConstant")
+      Object service = context.getSystemService("statusbar");
+      Class<?> statusbarManager = Class.forName("android.app.StatusBarManager");
+      Method collapse =
+          statusbarManager.getMethod((Build.VERSION.SDK_INT >= 17) ? "collapsePanels" : "collapse");
+      collapse.setAccessible(true);
+      collapse.invoke(service);
+    } catch (Exception e) {
+      Log.e("HIDE_NOTIFICATION_DRAWER", "", e);
+    }
   }
 
   interface GenericCallback {
