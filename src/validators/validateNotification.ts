@@ -7,6 +7,33 @@ import { generateId, objectHasProperty, isObject, isString, isAndroid, isIOS } f
 import validateAndroidNotification from './validateAndroidNotification';
 import validateIOSNotification from './validateIOSNotification';
 import { Notification } from '../types/Notification';
+import { Platform } from 'react-native';
+import { NotificationAndroid } from '../types/NotificationAndroid';
+import { NotificationIOS } from '..';
+
+/**
+ * Validate platform-specific notification
+ *
+ * Only throws a validation error if the device is on the same platform
+ * Otherwise, will log a warning in the console
+ */
+export const validatePlatformSpecificNotification = (out: Notification, platform: string) => {
+  try {
+    if (platform === 'ios') {
+      return validateIOSNotification(out.ios);
+    } else {
+      return validateAndroidNotification(out.android);
+    }
+  } catch (error) {
+    const isRunningOnSamePlatform = platform === Platform.OS;
+    if (isRunningOnSamePlatform) {
+      throw error;
+    } else {
+      console.debug(`Invalid ${platform} notification ->`, error);
+      return {};
+    }
+  }
+};
 
 export default function validateNotification(notification: Notification): Notification {
   if (!isObject(notification)) {
@@ -96,22 +123,11 @@ export default function validateNotification(notification: Notification): Notifi
     out.data = notification.data;
   }
 
-  /**
-   * android
-   */
-  const validatedAndroid = validateAndroidNotification(notification.android);
-  if (isAndroid) {
-    /* istanbul ignore next */
-    out.android = validatedAndroid;
-  }
-
-  /**
-   * ios
-   */
-  const validatedIOS = validateIOSNotification(notification.ios);
-  if (isIOS) {
-    out.ios = validatedIOS;
-  }
+  out.android = validatePlatformSpecificNotification(
+    notification,
+    'android',
+  ) as NotificationAndroid;
+  out.ios = validatePlatformSpecificNotification(notification, 'ios') as NotificationIOS;
 
   return out;
 }
