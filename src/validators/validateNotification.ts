@@ -17,19 +17,22 @@ import { NotificationIOS } from '..';
  * Only throws a validation error if the device is on the same platform
  * Otherwise, will show a debug log in the console
  */
-export const validatePlatformSpecificNotification = (out: Notification, platform: string) => {
+export const validatePlatformSpecificNotification = (
+  out: Notification,
+  specifiedPlatform: string,
+) => {
   try {
-    if (platform === 'ios') {
+    if (specifiedPlatform === 'ios') {
       return validateIOSNotification(out.ios);
     } else {
       return validateAndroidNotification(out.android);
     }
   } catch (error) {
-    const isRunningOnSamePlatform = platform === Platform.OS;
+    const isRunningOnSamePlatform = specifiedPlatform === Platform.OS;
     if (isRunningOnSamePlatform) {
       throw error;
     } else {
-      console.debug(`Invalid ${platform} notification ->`, error);
+      console.debug(`Invalid ${specifiedPlatform} notification ->`, error);
       return {};
     }
   }
