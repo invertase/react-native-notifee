@@ -123,11 +123,25 @@ export default function validateNotification(notification: Notification): Notifi
     out.data = notification.data;
   }
 
-  out.android = validatePlatformSpecificNotification(
+  /**
+   * android
+   */
+  const validatedAndroid = validatePlatformSpecificNotification(
     notification,
     'android',
   ) as NotificationAndroid;
-  out.ios = validatePlatformSpecificNotification(notification, 'ios') as NotificationIOS;
+
+  if (isAndroid) {
+    out.android = validatedAndroid;
+  }
+
+  /**
+   * ios
+   */
+  const validatedIOS = validatePlatformSpecificNotification(notification, 'ios') as NotificationIOS;
+  if (isIOS) {
+    out.ios = validatedIOS;
+  }
 
   return out;
 }
