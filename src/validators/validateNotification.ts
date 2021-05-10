@@ -15,7 +15,7 @@ import { NotificationIOS } from '..';
  * Validate platform-specific notification
  *
  * Only throws a validation error if the device is on the same platform
- * Otherwise, will log a warning in the console
+ * Otherwise, will show a debug log in the console
  */
 export const validatePlatformSpecificNotification = (out: Notification, platform: string) => {
   try {
