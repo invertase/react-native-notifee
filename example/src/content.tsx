@@ -9,7 +9,7 @@ type Props = {};
 
 export const Content: React.FC<Props> = () => {
   /* Change the notification payload */
-  const notification = notifications.fullScreen;
+  const notification = notifications.basic;
 
   const onDisplayNotificationPress = async () => {
     await notifee.deleteChannel(notification.android?.channelId || 'default')
