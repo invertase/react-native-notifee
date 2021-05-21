@@ -6,25 +6,15 @@
 * `cd react-native-notifee/example`
 * `yarn`
 
-
 ## Running Android
-
 * make sure you have no other packagers running!
 * `react-native start`
 * start an emulator (e.g., using Android Studio -> Tools -> AVD Manager -> start one)
 * `react-native run-android`
 
-## Running iOS
-
+### With CocoaPods
 * make sure you have no other packagers running!
 * `react-native start`
-
-### Without CocoaPods
-
-* `react-native run-ios`
-
-### With CocoaPods
-
 * `cd ios && pod install && cd ..`
 * `react-native run-ios`
 

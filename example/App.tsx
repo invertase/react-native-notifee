@@ -13,6 +13,7 @@ import notifee, {
   IOSAuthorizationStatus,
 } from '@notifee/react-native';
 import {Content} from './src/content';
+import {categories} from './src/utils/categories';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -27,8 +28,11 @@ notifee.onBackgroundEvent(async ({type, detail}) => {
     `[onBackgroundEvent] notification id: ${notification?.id},  event type: ${EventType[type]}, press action: ${pressAction?.id}`,
   );
   // Check if the user pressed the "Mark as read" action
-  if (type === EventType.ACTION_PRESS && pressAction?.id === 'mark-as-read') {
-    console.log('[onBackgroundEvent] ACTION_PRESS: mark-as-read');
+  if (
+    type === EventType.ACTION_PRESS &&
+    pressAction?.id === 'first_action_reply'
+  ) {
+    console.log('[onBackgroundEvent] ACTION_PRESS: first_action_reply');
 
     // Remove the notification
     if (notification?.id) await notifee.cancelNotification(notification?.id);
@@ -48,7 +52,8 @@ function App() {
 
   // Subscribe to events
   useEffect(() => {
-    return notifee.onForegroundEvent(({type, detail}) => {
+    notifee.setNotificationCategories(categories);
+    return notifee.onForegroundEvent(async ({type, detail}) => {
       const {notification, pressAction} = detail;
       const pressActionLabel = pressAction
         ? `, press action: ${pressAction?.id}`
@@ -76,6 +81,12 @@ function App() {
             notification,
             detail.pressAction,
           );
+
+          if (detail.pressAction?.id === 'first_action_reply') {
+            // perform any server calls here and cancel notification
+            if (notification?.id)
+              await notifee.cancelDisplayedNotification(notification.id);
+          }
           break;
       }
     });
@@ -104,7 +115,7 @@ export default App;
 function FullScreenComponent(): any {
   return (
     // eslint-disable-next-line react-native/no-inline-styles
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <Text>FullScreen Launch Activity</Text>
     </View>
   );
@@ -112,18 +123,19 @@ function FullScreenComponent(): any {
 
 AppRegistry.registerComponent('custom', () => FullScreenComponent);
 
-
 function FullScreenMainComponent(): any {
   return (
     // eslint-disable-next-line react-native/no-inline-styles
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <Text>FullScreen Main Component</Text>
     </View>
   );
 }
 
-AppRegistry.registerComponent('full-screen-main-component', () => FullScreenMainComponent);
-
+AppRegistry.registerComponent(
+  'full-screen-main-component',
+  () => FullScreenMainComponent,
+);
 
 const styles = StyleSheet.create({
   container: {
