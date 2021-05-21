@@ -128,7 +128,7 @@ On iOS, it's required to request permissions to be able to display a notificatio
 
 ## Subscribing to events
 
-In [App.tsx](https://github.com/notifee/react-native-notifee/blob/9625612a5740744d64ac1b2fba4e2d8a8fbe04e5/example/App.tsx), `onBackgroundEvent` and `onForegroundEvent` are registered to recieve events:
+In [App.tsx](https://github.com/notifee/react-native-notifee/blob/9625612a5740744d64ac1b2fba4e2d8a8fbe04e5/example/App.tsx), `onBackgroundEvent` and `onForegroundEvent` are registered to receive events:
 
 ```js
 notifee.onBackgroundEvent(async ({type, detail}) => {
