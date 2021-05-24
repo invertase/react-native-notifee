@@ -77,7 +77,7 @@ In your Jest config file, add an entry to the `setupFilesAfterEnv` array, perhap
 module.exports = {
   // ... other directives
   setupFilesAfterEnv: [
-    'node_modules/@notifee/react-native/jest-mock.js'
+    './node_modules/@notifee/react-native/jest-mock.js'
   ],
   // ... other directives
 }
