@@ -10,7 +10,13 @@ import {
   NativeAndroidChannel,
   NativeAndroidChannelGroup,
 } from './types/NotificationAndroid';
-import { InitialNotification, Notification, Event } from './types/Notification';
+import {
+  InitialNotification,
+  Notification,
+  Event,
+  TriggerNotification,
+  DisplayedNotification,
+} from './types/Notification';
 import { PowerManagerInfo } from './types/PowerManagerInfo';
 import { Trigger } from './types/Trigger';
 import NotifeeNativeModule, { NativeModuleConfig } from './NotifeeNativeModule';
@@ -93,16 +99,41 @@ export default class NotifeeApiModule extends NotifeeNativeModule implements Mod
     return this.native.getTriggerNotificationIds();
   };
 
-  public cancelAllNotifications = (): Promise<void> => {
-    return this.native.cancelAllNotifications();
+  public getTriggerNotifications = (): Promise<TriggerNotification[]> => {
+    return this.native.getTriggerNotifications();
   };
 
-  public cancelDisplayedNotifications = (): Promise<void> => {
-    return this.native.cancelDisplayedNotifications();
+  public getDisplayedNotifications = (): Promise<DisplayedNotification[]> => {
+    return this.native.getDisplayedNotifications();
   };
 
-  public cancelTriggerNotifications = (): Promise<void> => {
-    return this.native.cancelTriggerNotifications();
+  public isChannelBlocked = (channelId: string): Promise<Boolean> => {
+    if (!isString(channelId)) {
+      throw new Error("notifee.isChannelBlocked(*) 'channelId' expected a string value.");
+    }
+
+    return this.native.isChannelBlocked(channelId);
+  };
+
+  public isChannelCreated = (channelId: string): Promise<Boolean> => {
+    if (!isString(channelId)) {
+      channelId;
+      throw new Error("notifee.isChannelCreated(*) 'channelId' expected a string value.");
+    }
+
+    return this.native.isChannelCreated(channelId);
+  };
+
+  public cancelAllNotifications = (notificationIds?: string[]): Promise<void> => {
+    return this.native.cancelAllNotifications(notificationIds);
+  };
+
+  public cancelDisplayedNotifications = (notificationIds?: string[]): Promise<void> => {
+    return this.native.cancelDisplayedNotifications(notificationIds);
+  };
+
+  public cancelTriggerNotifications = (notificationIds?: string[]): Promise<void> => {
+    return this.native.cancelTriggerNotifications(notificationIds);
   };
 
   public cancelNotification = (notificationId: string): Promise<void> => {

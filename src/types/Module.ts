@@ -16,6 +16,7 @@ import {
   IOSNotificationPermissions,
 } from './NotificationIOS';
 import { PowerManagerInfo } from './PowerManagerInfo';
+import { DisplayedNotification, TriggerNotification } from '..';
 
 export interface Module {
   /**
@@ -27,7 +28,7 @@ export interface Module {
    * This method does not cancel Android [Foreground Service](/react-native/docs/android/foreground-service)
    * notifications.
    */
-  cancelAllNotifications(): Promise<void>;
+  cancelAllNotifications(notificationIds?: string[]): Promise<void>;
 
   /**
    * API used to cancel any displayed notifications.
@@ -35,12 +36,12 @@ export interface Module {
    * This method does not cancel Android [Foreground Service](/react-native/docs/android/foreground-service)
    * notifications.
    */
-  cancelDisplayedNotifications(): Promise<void>;
+  cancelDisplayedNotifications(notificationIds?: string[]): Promise<void>;
 
   /**
    * API used to cancel any trigger notifications.
    */
-  cancelTriggerNotifications(): Promise<void>;
+  cancelTriggerNotifications(notificationIds?: string[]): Promise<void>;
 
   /**
    * API used to cancel a single notification.
@@ -205,6 +206,10 @@ export interface Module {
    */
   getTriggerNotificationIds(): Promise<string[]>;
 
+  getDisplayedNotifications(): Promise<DisplayedNotification[]>;
+
+  getTriggerNotifications(): Promise<TriggerNotification[]>;
+
   /**
    * API used to return a channel on supported Android devices.
    *
@@ -222,6 +227,10 @@ export interface Module {
    * a unknown channel ID is provided, `null` is returned.
    */
   getChannel(channelId: string): Promise<NativeAndroidChannel | null>;
+
+  isChannelCreated(channelId: string): Promise<Boolean>;
+
+  isChannelBlocked(channelId: string): Promise<Boolean>;
 
   /**
    * API used to return all channels on supported Android devices.

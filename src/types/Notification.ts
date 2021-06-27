@@ -9,6 +9,7 @@ import {
   NotificationAndroid,
   AndroidLaunchActivityFlag,
 } from './NotificationAndroid';
+import { Trigger } from '..';
 
 /**
  * Interface for building a local notification for both Android & iOS devices.
@@ -98,6 +99,50 @@ export interface InitialNotification {
    * @platform android API Level >= 20
    */
   input?: string;
+}
+
+/**
+ * TODO
+ */
+export interface DisplayedNotification {
+  /**
+   * ID of the notification
+   */
+  id?: string;
+
+  /**
+   * Date the notification was shown to the user
+   */
+  date?: string;
+
+  /**
+   * The notification
+   */
+  notification: Notification;
+
+  /**
+   * The trigger that was used to schedule the notification
+   *
+   * @platform iOS
+   */
+  trigger: Trigger;
+}
+
+/**
+ * TODO
+ */
+export interface TriggerNotification {
+  /**
+   * The notification
+   */
+  notification: Notification;
+
+  /**
+   * The trigger that was used to schedule the notification
+   *
+   * @platform iOS
+   */
+  trigger: Trigger;
 }
 
 /**
