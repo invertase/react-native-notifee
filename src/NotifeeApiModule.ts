@@ -112,6 +112,10 @@ export default class NotifeeApiModule extends NotifeeNativeModule implements Mod
       throw new Error("notifee.isChannelBlocked(*) 'channelId' expected a string value.");
     }
 
+    if (isIOS || this.native.ANDROID_API_LEVEL < 26) {
+      return Promise.resolve(false);
+    }
+
     return this.native.isChannelBlocked(channelId);
   };
 
@@ -119,6 +123,10 @@ export default class NotifeeApiModule extends NotifeeNativeModule implements Mod
     if (!isString(channelId)) {
       channelId;
       throw new Error("notifee.isChannelCreated(*) 'channelId' expected a string value.");
+    }
+
+    if (isIOS || this.native.ANDROID_API_LEVEL < 26) {
+      return Promise.resolve(true);
     }
 
     return this.native.isChannelCreated(channelId);
