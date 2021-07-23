@@ -86,6 +86,40 @@ public class NotifeeApiModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
+  public void cancelAllNotifications(ArrayList<String> ids, Promise promise) {
+    Notifee.getInstance()
+        .cancelAllNotificationsWithIds(
+          NOTIFICATION_TYPE_ALL,
+          ids,
+            (e, aVoid) -> NotifeeReactUtils.promiseResolver(promise, e));
+  }
+
+  @ReactMethod
+  public void cancelDisplayedNotifications(ArrayList<String> ids, Promise promise) {
+    Notifee.getInstance()
+        .cancelAllNotificationsWithIds(
+          NOTIFICATION_TYPE_DISPLAYED,
+          ids,
+            (e, aVoid) -> NotifeeReactUtils.promiseResolver(promise, e));
+  }
+
+  @ReactMethod
+  public void cancelTriggerNotifications(ArrayList<String> ids, Promise promise) {
+    Notifee.getInstance()
+        .cancelAllNotificationsWithIds(
+          NOTIFICATION_TYPE_TRIGGER,
+          ids,
+            (e, aVoid) -> NotifeeReactUtils.promiseResolver(promise, e));
+  }
+
+  @ReactMethod
+  public void getDisplayedNotifications(Promise promise) {
+    Notifee.getInstance()
+        .getDisplayedNotifications(
+            (e, aBundleList) -> NotifeeReactUtils.promiseResolver(promise, e, aBundleList));
+  }
+
+  @ReactMethod
   public void getTriggerNotificationIds(Promise promise) {
     Notifee.getInstance()
         .getTriggerNotificationIds(
@@ -189,6 +223,20 @@ public class NotifeeApiModule extends ReactContextBaseJavaModule {
     Notifee.getInstance()
         .getChannel(
             channelGroupId, (e, aBundle) -> NotifeeReactUtils.promiseResolver(promise, e, aBundle));
+  }
+
+  @ReactMethod
+  public void isChannelCreated(String channelId, Promise promise) {
+    Notifee.getInstance()
+        .isChannelCreated(
+            channelId, (e, aBool) -> NotifeeReactUtils.promiseBooleanResolver(promise, e, aBool));
+  }
+
+  @ReactMethod
+  public void isChannelBlocked(String channelId, Promise promise) {
+    Notifee.getInstance()
+        .isChannelBlocked(
+            channelId, (e, aBool) -> NotifeeReactUtils.promiseBooleanResolver(promise, e, aBool));
   }
 
   @ReactMethod
