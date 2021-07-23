@@ -89,8 +89,8 @@ public class NotifeeApiModule extends ReactContextBaseJavaModule {
   public void cancelAllNotifications(ArrayList<String> ids, Promise promise) {
     Notifee.getInstance()
         .cancelAllNotificationsWithIds(
-          NOTIFICATION_TYPE_ALL,
-          ids,
+            NOTIFICATION_TYPE_ALL,
+            ids,
             (e, aVoid) -> NotifeeReactUtils.promiseResolver(promise, e));
   }
 
@@ -98,8 +98,8 @@ public class NotifeeApiModule extends ReactContextBaseJavaModule {
   public void cancelDisplayedNotifications(ArrayList<String> ids, Promise promise) {
     Notifee.getInstance()
         .cancelAllNotificationsWithIds(
-          NOTIFICATION_TYPE_DISPLAYED,
-          ids,
+            NOTIFICATION_TYPE_DISPLAYED,
+            ids,
             (e, aVoid) -> NotifeeReactUtils.promiseResolver(promise, e));
   }
 
@@ -107,8 +107,8 @@ public class NotifeeApiModule extends ReactContextBaseJavaModule {
   public void cancelTriggerNotifications(ArrayList<String> ids, Promise promise) {
     Notifee.getInstance()
         .cancelAllNotificationsWithIds(
-          NOTIFICATION_TYPE_TRIGGER,
-          ids,
+            NOTIFICATION_TYPE_TRIGGER,
+            ids,
             (e, aVoid) -> NotifeeReactUtils.promiseResolver(promise, e));
   }
 
