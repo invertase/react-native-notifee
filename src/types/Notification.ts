@@ -10,6 +10,7 @@ import {
   AndroidLaunchActivityFlag,
 } from './NotificationAndroid';
 import { Trigger } from '..';
+import { IntervalTrigger, TimestampTrigger } from './Trigger';
 
 /**
  * Interface for building a local notification for both Android & iOS devices.

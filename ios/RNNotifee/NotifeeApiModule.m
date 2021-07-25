@@ -161,8 +161,7 @@ RCT_EXPORT_METHOD(cancelTriggerNotifications:
   }];
 }
 
-RCT_EXPORT_METHOD(cancelAllNotifications:
-      ids:
+RCT_EXPORT_METHOD(cancelAllNotificationsWithIds:
       (NSArray<NSString *> *)ids
       resolve:
       (RCTPromiseResolveBlock)resolve
@@ -175,8 +174,7 @@ RCT_EXPORT_METHOD(cancelAllNotifications:
 }
 
 
-RCT_EXPORT_METHOD(cancelDisplayedNotifications:
-      ids:
+RCT_EXPORT_METHOD(cancelDisplayedNotificationsWithIds:
       (NSArray<NSString *> *)ids
       resolve:
       (RCTPromiseResolveBlock)resolve
@@ -188,8 +186,7 @@ RCT_EXPORT_METHOD(cancelDisplayedNotifications:
   }];
 }
 
-RCT_EXPORT_METHOD(cancelTriggerNotifications:
-      ids:
+RCT_EXPORT_METHOD(cancelTriggerNotificationsWithIds:
       (NSArray<NSString *> *)ids
       resolve:
       (RCTPromiseResolveBlock)resolve
@@ -222,6 +219,19 @@ RCT_EXPORT_METHOD(displayNotification:
     [self resolve:resolve orReject:reject promiseWithError:error orResult:nil];
   }];
 }
+
+RCT_EXPORT_METHOD(createTriggerNotification:
+  (NSDictionary *)notification
+      trigger:
+      (NSDictionary *)trigger
+                  resolve:
+                  (RCTPromiseResolveBlock) resolve
+                  reject:
+                  (RCTPromiseRejectBlock) reject) {
+        [NotifeeCore createTriggerNotification:notification withTrigger:trigger withBlock:^(NSError *_Nullable error) {
+          [self resolve:resolve orReject:reject promiseWithError:error orResult:nil];
+    }];
+  }
 
 RCT_EXPORT_METHOD(requestPermission:
   (NSDictionary *) permissions

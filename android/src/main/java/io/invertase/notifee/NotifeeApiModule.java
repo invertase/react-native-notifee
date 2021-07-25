@@ -86,7 +86,12 @@ public class NotifeeApiModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void cancelAllNotifications(ArrayList<String> ids, Promise promise) {
+  public void cancelAllNotificationsWithIds(ReadableArray idsArray, Promise promise) {
+    ArrayList<String> ids = new ArrayList<>(idsArray.size());
+    for (int i = 0; i < idsArray.size(); i++) {
+      ids.add(idsArray.getString(i));
+    }
+
     Notifee.getInstance()
         .cancelAllNotificationsWithIds(
             NOTIFICATION_TYPE_ALL,
@@ -95,7 +100,12 @@ public class NotifeeApiModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void cancelDisplayedNotifications(ArrayList<String> ids, Promise promise) {
+  public void cancelDisplayedNotificationsWithIds(ReadableArray idsArray, Promise promise) {
+    ArrayList<String> ids = new ArrayList<>(idsArray.size());
+    for (int i = 0; i < idsArray.size(); i++) {
+      ids.add(idsArray.getString(i));
+    }
+
     Notifee.getInstance()
         .cancelAllNotificationsWithIds(
             NOTIFICATION_TYPE_DISPLAYED,
@@ -104,7 +114,12 @@ public class NotifeeApiModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void cancelTriggerNotifications(ArrayList<String> ids, Promise promise) {
+  public void cancelTriggerNotificationsWithIds(ReadableArray idsArray, Promise promise) {
+    ArrayList<String> ids = new ArrayList<>(idsArray.size());
+    for (int i = 0; i < idsArray.size(); i++) {
+      ids.add(idsArray.getString(i));
+    }
+
     Notifee.getInstance()
         .cancelAllNotificationsWithIds(
             NOTIFICATION_TYPE_TRIGGER,
@@ -116,6 +131,13 @@ public class NotifeeApiModule extends ReactContextBaseJavaModule {
   public void getDisplayedNotifications(Promise promise) {
     Notifee.getInstance()
         .getDisplayedNotifications(
+            (e, aBundleList) -> NotifeeReactUtils.promiseResolver(promise, e, aBundleList));
+  }
+
+  @ReactMethod
+  public void getTriggerNotifications(Promise promise) {
+    Notifee.getInstance()
+        .getTriggerNotifications(
             (e, aBundleList) -> NotifeeReactUtils.promiseResolver(promise, e, aBundleList));
   }
 
