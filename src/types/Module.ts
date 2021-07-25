@@ -206,8 +206,14 @@ export interface Module {
    */
   getTriggerNotificationIds(): Promise<string[]>;
 
+  /**
+   * API used to return the notifications that are displayed.
+   */
   getDisplayedNotifications(): Promise<DisplayedNotification[]>;
 
+  /**
+   * API used to return the trigger notifications that are pending.
+   */
   getTriggerNotifications(): Promise<TriggerNotification[]>;
 
   /**
@@ -228,9 +234,23 @@ export interface Module {
    */
   getChannel(channelId: string): Promise<NativeAndroidChannel | null>;
 
-  isChannelCreated(channelId: string): Promise<Boolean>;
+  /**
+   * API used to check if a channel is created.
+   *
+   * On iOS, this will default to true
+   *
+   * @platform android
+   */
+  isChannelCreated(channelId: string): Promise<boolean>;
 
-  isChannelBlocked(channelId: string): Promise<Boolean>;
+  /**
+   * API used to check if a channel is blocked.
+   *
+   * On iOS, this will default to false
+   *
+   * @platform android
+   */
+  isChannelBlocked(channelId: string): Promise<boolean>;
 
   /**
    * API used to return all channels on supported Android devices.

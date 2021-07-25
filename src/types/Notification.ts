@@ -10,7 +10,6 @@ import {
   AndroidLaunchActivityFlag,
 } from './NotificationAndroid';
 import { Trigger } from '..';
-import { IntervalTrigger, TimestampTrigger } from './Trigger';
 
 /**
  * Interface for building a local notification for both Android & iOS devices.
@@ -103,7 +102,7 @@ export interface InitialNotification {
 }
 
 /**
- * TODO
+ * An interface representing a notification that is currently displayed in the notification tray.
  */
 export interface DisplayedNotification {
   /**
@@ -117,12 +116,12 @@ export interface DisplayedNotification {
   date?: string;
 
   /**
-   * The notification
+   * The payload that was used to create the notification (if available)
    */
   notification: Notification;
 
   /**
-   * The trigger that was used to schedule the notification
+   * The trigger that was used to schedule the notification (if available)
    *
    * @platform iOS
    */
@@ -130,7 +129,7 @@ export interface DisplayedNotification {
 }
 
 /**
- * TODO
+ * An interface representing a notification that is pending.
  */
 export interface TriggerNotification {
   /**
@@ -139,7 +138,7 @@ export interface TriggerNotification {
   notification: Notification;
 
   /**
-   * The trigger that was used to schedule the notification
+   * The trigger that is used to schedule the notification
    *
    * @platform iOS
    */

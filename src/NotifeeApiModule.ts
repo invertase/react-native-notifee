@@ -107,7 +107,7 @@ export default class NotifeeApiModule extends NotifeeNativeModule implements Mod
     return this.native.getDisplayedNotifications();
   };
 
-  public isChannelBlocked = (channelId: string): Promise<Boolean> => {
+  public isChannelBlocked = (channelId: string): Promise<boolean> => {
     if (!isString(channelId)) {
       throw new Error("notifee.isChannelBlocked(*) 'channelId' expected a string value.");
     }
@@ -119,7 +119,7 @@ export default class NotifeeApiModule extends NotifeeNativeModule implements Mod
     return this.native.isChannelBlocked(channelId);
   };
 
-  public isChannelCreated = (channelId: string): Promise<Boolean> => {
+  public isChannelCreated = (channelId: string): Promise<boolean> => {
     if (!isString(channelId)) {
       channelId;
       throw new Error("notifee.isChannelCreated(*) 'channelId' expected a string value.");

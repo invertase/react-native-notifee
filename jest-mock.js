@@ -39,22 +39,26 @@ export const testChannelGroup = {
 
 export const testTrigger = {
   type: 'TIMESTAMP',
-  timestamp: new Date(Date.now()).getTime()
+  timestamp: new Date(Date.now()).getTime(),
 };
 
 export const testTriggerNotificationIds = ['trigger1', 'trigger2'];
 
-export const testTriggerNotifications = [{
-  notification: testNotification,
-  trigger: testTrigger
-}];
+export const testTriggerNotifications = [
+  {
+    notification: testNotification,
+    trigger: testTrigger,
+  },
+];
 
-export const testDisplayedNotifications = [{
-  id: testNotification.id,
-  date: testTrigger.timestamp,
-  notification: testNotification,
-  trigger: testTrigger
-}];
+export const testDisplayedNotifications = [
+  {
+    id: testNotification.id,
+    date: testTrigger.timestamp,
+    notification: testNotification,
+    trigger: testTrigger,
+  },
+];
 
 export const testCategory = {
   id: 'test-category',
