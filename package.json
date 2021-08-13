@@ -14,7 +14,8 @@
     "prepare": "yarn run build",
     "prepublishOnly": "cd ../.. && yarn run build:core",
     "format:android": "google-java-format --replace -i $(find . -type f -name \"*.java\")",
-    "format:ios": "npx clang-format -i --glob=\"*/**/*.{h,cpp,m,mm}\" --style=Google"
+    "format:ios": "npx clang-format -i --glob=\"*/**/*.{h,cpp,m,mm}\" --style=Google",
+    "gen-docs": "typedoc src/index.ts src/types/*.ts src/NotifeeApiModule.ts --out \"../../docs-md\""
   },
   "devDependencies": {
     "@types/react-native": "0.64.10",
@@ -26,6 +27,8 @@
     "genversion": "^3.0.0",
     "prettier": "^2.3.1",
     "rimraf": "^3.0.2",
+    "typedoc": "^0.21.5",
+    "typedoc-plugin-markdown": "^3.10.4",
     "typescript": "^4.3.2"
   },
   "peerDependencies": {
